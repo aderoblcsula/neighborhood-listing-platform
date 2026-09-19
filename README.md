@@ -45,4 +45,3 @@ An accessible community platform for discovering local listings, connecting with
 - npm
 
 - Vercel
-
