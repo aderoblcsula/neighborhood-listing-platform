@@ -20,7 +20,7 @@ export default function Home() {
 
         <section className="mt-12" aria-labelledby="features-heading">
           <h2 id="features-heading" className="text-2xl font-bold">
-            Platform features
+            Explore neighborhood features
           </h2>
 
           <div className="mt-6 grid gap-6 md:grid-cols-3">
