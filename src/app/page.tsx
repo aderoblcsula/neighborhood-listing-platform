@@ -1,7 +1,12 @@
+import PropertyCard from "@/components/PropertyCard";
+import SearchFilters from "@/components/SearchFilters";
+import SponsorBanner from "@/components/SponsorBanner";
+import { featuredSponsor, properties } from "@/data/properties";
+
 export default function Home() {
   return (
-    <main className="min-h-screen bg-slate-100 px-6 py-16 text-slate-900">
-      <div className="mx-auto max-w-5xl">
+    <main className="min-h-screen bg-slate-100 px-4 py-12 text-slate-900 sm:px-6 sm:py-16">
+      <div className="mx-auto max-w-7xl">
         <header className="max-w-3xl">
           <p className="font-semibold uppercase tracking-wide text-blue-700">
             Your neighborhood, connected
@@ -12,45 +17,38 @@ export default function Home() {
           </h1>
 
           <p className="mt-5 text-lg leading-8 text-slate-700">
-            Discover local listings, connect with neighborhood sponsors, and
-            receive helpful voice assistance from one accessible community
-            platform.
+            Find a welcoming home and discover the local organizations that
+            make each neighborhood feel connected.
           </p>
         </header>
 
-        <section className="mt-12" aria-labelledby="features-heading">
-          <h2 id="features-heading" className="text-2xl font-bold">
-            Explore neighborhood features
+        <section className="mt-12" aria-labelledby="search-heading">
+          <h2 id="search-heading" className="text-2xl font-bold">
+            Search available homes
           </h2>
-
-          <div className="mt-6 grid gap-6 md:grid-cols-3">
-            <article className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-              <h3 className="text-xl font-semibold">Listings</h3>
-              <p className="mt-3 leading-7 text-slate-600">
-                Browse useful listings shared by people and organizations in
-                your neighborhood.
-              </p>
-            </article>
-
-            <article className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-              <h3 className="text-xl font-semibold">
-                Neighborhood Sponsors
-              </h3>
-              <p className="mt-3 leading-7 text-slate-600">
-                Learn about local businesses and organizations supporting the
-                community.
-              </p>
-            </article>
-
-            <article className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-              <h3 className="text-xl font-semibold">Voice Help</h3>
-              <p className="mt-3 leading-7 text-slate-600">
-                Get voice-guided assistance when searching and navigating the
-                platform.
-              </p>
-            </article>
+          <div className="mt-5">
+            <SearchFilters />
           </div>
         </section>
+
+        <section className="mt-14" aria-labelledby="listings-heading">
+          <h2 id="listings-heading" className="text-2xl font-bold">
+            Featured properties
+          </h2>
+          <p className="mt-2 text-slate-700">
+            Three sample homes available in the neighborhood.
+          </p>
+
+          <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {properties.map((property) => (
+              <PropertyCard key={property.id} property={property} />
+            ))}
+          </div>
+        </section>
+
+        <div className="mt-14">
+          <SponsorBanner sponsor={featuredSponsor} />
+        </div>
       </div>
     </main>
   );
