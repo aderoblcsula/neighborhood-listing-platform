@@ -14,6 +14,10 @@
 
 | ChatGPT | Help implement a simple accessible app shell with a heading, project purpose, and feature cards for Listings, Neighborhood Sponsors, and Voice Help. | Used semantic HTML, Tailwind styling, the three required feature cards, and updated page metadata. | No additional packages, secrets, or unnecessary features were used. | Inspected the rendered page, terminal output, and browser Console; no application errors were found. | feat: create accessible neighborhood app shell |
 
+| ChatGPT | Review these React components for semantic HTML, WCAG-oriented keyboard access, responsive behavior, and TypeScript safety. Return: issue, why it matters, smallest change, and a manual test. Do not claim compliance from code alone. | Retained semantic elements, specific accessible names, flexible card layout, visible focus styles, and a live form-status message. | Rejected adding redundant ARIA roles and rejected any claim of WCAG compliance without browser, keyboard, screen-reader, and audit evidence. | Completed source review. Browser and Lighthouse tests remain explicitly marked pending in `docs/accessibility-test-notes.md`. | docs: add accessibility and AI review evidence |
+
+| Gemini | Same component-review prompt as ChatGPT. | Pending Gemini review. | Pending Gemini review. | Must verify each proposed change in the browser before acceptance. | Pending |
+
 ## Two Differences Between the Responses
 
 
@@ -24,3 +28,9 @@
 
 1. ChatGPT presented... the stack mainly through paragraphs, while Gemini included a pipeline diagram and a numbered workflow showing how the technologies work together from development through deployment.
 
+
+| Gemini recommendation | Decision | Reason |
+|---|---|---|
+| Remove `aria-describedby="filter-message"` from the entire form | **Accepted** | Associating a changing message with the entire form could cause repetitive announcements whenever controls receive focus. |
+| Change the live region from `polite` to `assertive` | **Rejected** | The error is important but not an emergency. An assertive announcement may interrupt other screen-reader speech. The existing polite status region provides feedback without unnecessary interruption. |
+| Connect invalid selects directly to the error message | **Accepted** | It gives each invalid control a programmatic relationship with the explanation of its invalid state. |
