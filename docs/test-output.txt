@@ -1,0 +1,15 @@
+
+> neighborhood-listing-platform@0.1.0 test
+> vitest run
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90mC:/Users/santa/OneDrive/Desktop/CSULA/CIS 3610 Web/neighborhood-listing-platform[39m
+
+ [32m✓[39m tests/sponsor-validation.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m tests/property-validation.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[32m7 passed[39m[22m[90m (7)[39m
+[2m   Start at [22m 13:16:51
+[2m   Duration [22m 442ms[2m (transform 67ms, setup 0ms, import 399ms, tests 30ms, environment 0ms)[22m
+

@@ -1,0 +1,18 @@
+
+> neighborhood-listing-platform@0.1.0 validate:data
+> node scripts/validate-data.mjs
+
+FAIL: prop-101
+  /property_id: must match pattern "^property-[a-z0-9-]+$"
+FAIL: prop-102
+  /property_id: must match pattern "^property-[a-z0-9-]+$"
+FAIL: prop-103
+  /property_id: must match pattern "^property-[a-z0-9-]+$"
+FAIL: prop-104
+  /property_id: must match pattern "^property-[a-z0-9-]+$"
+FAIL: prop-105
+  /property_id: must match pattern "^property-[a-z0-9-]+$"
+
+Records checked: 5
+Invalid records: 5
+Validation errors: 5

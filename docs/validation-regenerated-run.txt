@@ -1,0 +1,16 @@
+
+> neighborhood-listing-platform@0.1.0 validate:data
+> node scripts/validate-data.mjs data/generated/properties.regenerated.json
+
+Data file: data/generated/properties.regenerated.json
+
+PASS: property-solana-cottage-101
+PASS: property-mariposa-townhome-202
+PASS: property-azure-condo-303
+PASS: property-solana-family-404
+PASS: property-mariposa-garden-505
+
+Records checked: 5
+Invalid records: 0
+Validation errors: 0
+All generated property records are valid.

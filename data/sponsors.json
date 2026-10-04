@@ -1,0 +1,26 @@
+[
+    {
+        "sponsor_id": "sponsor-green-leaf",
+        "name": "Green Leaf Home and Garden",
+        "category": "home-services",
+        "description": "A fictional neighborhood company offering water-wise gardening and home landscape services.",
+        "website_url": "https://example.com/sponsors/green-leaf",
+        "active": true
+    },
+    {
+        "sponsor_id": "sponsor-neighborhood-credit-union",
+        "name": "Neighborhood Community Credit Union",
+        "category": "financial-services",
+        "description": "A fictional community credit union providing educational home-finance resources to local residents.",
+        "website_url": "https://example.com/sponsors/neighborhood-credit-union",
+        "active": true
+    },
+    {
+        "sponsor_id": "sponsor-community-market",
+        "name": "Mariposa Community Market",
+        "category": "retail",
+        "description": "A fictional neighborhood market featuring groceries, household supplies, and locally inspired products.",
+        "website_url": "https://example.com/sponsors/community-market",
+        "active": true
+    }
+]
