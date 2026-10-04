@@ -1,0 +1,52 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://example.com/schemas/sponsor.schema.json",
+    "title": "Sponsor",
+    "description": "Contract for one synthetic local sponsor.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "sponsor_id",
+        "name",
+        "category",
+        "description",
+        "website_url",
+        "active"
+    ],
+    "properties": {
+        "sponsor_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^sponsor-[a-z0-9-]+$"
+        },
+        "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+        },
+        "category": {
+            "type": "string",
+            "enum": [
+                "education",
+                "financial-services",
+                "food-and-dining",
+                "health-and-wellness",
+                "home-services",
+                "nonprofit",
+                "retail"
+            ]
+        },
+        "description": {
+            "type": "string",
+            "minLength": 20,
+            "maxLength": 300
+        },
+        "website_url": {
+            "type": "string",
+            "format": "uri"
+        },
+        "active": {
+            "type": "boolean"
+        }
+    }
+}
