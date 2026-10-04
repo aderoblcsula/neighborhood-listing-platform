@@ -10,7 +10,7 @@ import type { Property, Sponsor } from "@/types";
 import type { Property as PropertyContract } from "@/types/generated/property";
 import type { Sponsor as SponsorContract } from "@/types/generated/sponsor";
 
-type ValidationResult = {
+export type ValidationResult = {
   properties: Property[];
   featuredSponsor: Sponsor | null;
   errors: string[];
@@ -26,7 +26,10 @@ function formatErrors(
   });
 }
 
-function loadValidatedData(): ValidationResult {
+export function validateAndMapData(
+  propertySource: unknown,
+  sponsorSource: unknown
+): ValidationResult {
   const ajv = new Ajv2020({
     allErrors: true,
     strict: true
@@ -45,9 +48,16 @@ function loadValidatedData(): ValidationResult {
   const validSponsors: SponsorContract[] = [];
 
   const propertyCandidates: unknown[] =
-    Array.isArray(generatedPropertyData.records)
-      ? generatedPropertyData.records
+    typeof propertySource === "object" &&
+      propertySource !== null &&
+      "records" in propertySource &&
+      Array.isArray(propertySource.records)
+      ? propertySource.records
       : [];
+
+  if (propertyCandidates.length === 0) {
+    errors.push("No valid property-record collection was provided.");
+  }
 
   for (const [index, candidate] of propertyCandidates.entries()) {
     if (validateProperty(candidate)) {
@@ -62,9 +72,13 @@ function loadValidatedData(): ValidationResult {
     }
   }
 
-  const sponsorCandidates: unknown[] = Array.isArray(sponsorData)
-    ? sponsorData
+  const sponsorCandidates: unknown[] = Array.isArray(sponsorSource)
+    ? sponsorSource
     : [];
+
+  if (sponsorCandidates.length === 0) {
+    errors.push("No valid sponsor-record collection was provided.");
+  }
 
   for (const [index, candidate] of sponsorCandidates.entries()) {
     if (validateSponsor(candidate)) {
@@ -88,7 +102,7 @@ function loadValidatedData(): ValidationResult {
       if (!sponsorIds.has(relationship.sponsor_id)) {
         errors.push(
           `${property.property_id} references unknown sponsor ` +
-            relationship.sponsor_id
+          relationship.sponsor_id
         );
       }
     }
@@ -119,25 +133,31 @@ function loadValidatedData(): ValidationResult {
     detailsHref: property.details_href
   }));
 
-  const firstSponsorId =
+  const prioritizedRelationships =
     validProperties[0]?.local_sponsors
       .slice()
       .sort(
         (first, second) =>
           first.display_priority - second.display_priority
-      )[0]?.sponsor_id;
+      ) ?? [];
 
-  const selectedSponsor = validSponsors.find(
-    (sponsor) => sponsor.sponsor_id === firstSponsorId
-  );
+  const selectedSponsor = prioritizedRelationships
+    .map((relationship) =>
+      validSponsors.find(
+        (sponsor) =>
+          sponsor.sponsor_id === relationship.sponsor_id &&
+          sponsor.active
+      )
+    )
+    .find((sponsor) => sponsor !== undefined);
 
   const featuredSponsor: Sponsor | null = selectedSponsor
     ? {
-        id: selectedSponsor.sponsor_id,
-        name: selectedSponsor.name,
-        description: selectedSponsor.description,
-        websiteUrl: selectedSponsor.website_url
-      }
+      id: selectedSponsor.sponsor_id,
+      name: selectedSponsor.name,
+      description: selectedSponsor.description,
+      websiteUrl: selectedSponsor.website_url
+    }
     : null;
 
   return {
@@ -147,4 +167,7 @@ function loadValidatedData(): ValidationResult {
   };
 }
 
-export const validatedData = loadValidatedData();
+export const validatedData = validateAndMapData(
+  generatedPropertyData,
+  sponsorData
+);
