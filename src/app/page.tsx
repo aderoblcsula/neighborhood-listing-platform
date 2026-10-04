@@ -1,9 +1,15 @@
 import PropertyCard from "@/components/PropertyCard";
 import SearchFilters from "@/components/SearchFilters";
 import SponsorBanner from "@/components/SponsorBanner";
-import { featuredSponsor, properties } from "@/data/properties";
+import { validatedData } from "@/lib/validated-data";
 
 export default function Home() {
+  const {
+    properties,
+    featuredSponsor,
+    errors
+  } = validatedData;
+
   return (
     <main className="min-h-screen bg-slate-100 px-4 py-12 text-slate-900 sm:px-6 sm:py-16">
       <div className="mx-auto max-w-7xl">
@@ -26,6 +32,7 @@ export default function Home() {
           <h2 id="search-heading" className="text-2xl font-bold">
             Search available homes
           </h2>
+
           <div className="mt-5">
             <SearchFilters />
           </div>
@@ -35,20 +42,45 @@ export default function Home() {
           <h2 id="listings-heading" className="text-2xl font-bold">
             Featured properties
           </h2>
-          <p className="mt-2 text-slate-700">
-            Three sample homes available in the neighborhood.
-          </p>
 
-          <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {properties.map((property) => (
-              <PropertyCard key={property.id} property={property} />
-            ))}
-          </div>
+          {errors.length > 0 ? (
+            <div
+              className="mt-6 rounded-xl border border-red-300 bg-red-50 p-6 text-red-950"
+              role="alert"
+            >
+              <h3 className="text-lg font-bold">
+                Listings temporarily unavailable
+              </h3>
+
+              <p className="mt-2 leading-7">
+                The property data did not pass validation. No unvalidated
+                listings were displayed.
+              </p>
+            </div>
+          ) : (
+            <>
+              <p className="mt-2 text-slate-700">
+                {properties.length} validated synthetic homes are available
+                in the neighborhood.
+              </p>
+
+              <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {properties.map((property) => (
+                  <PropertyCard
+                    key={property.id}
+                    property={property}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </section>
 
-        <div className="mt-14">
-          <SponsorBanner sponsor={featuredSponsor} />
-        </div>
+        {featuredSponsor && (
+          <div className="mt-14">
+            <SponsorBanner sponsor={featuredSponsor} />
+          </div>
+        )}
       </div>
     </main>
   );

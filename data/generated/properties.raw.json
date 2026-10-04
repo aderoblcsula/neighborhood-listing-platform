@@ -1,0 +1,151 @@
+{
+    "records": [
+        {
+            "property_id": "prop-101",
+            "title": "Sunny Hillside Cottage",
+            "street_address": "123 Larkspur Lane",
+            "city": "Veridian Heights",
+            "state": "CA",
+            "zip_code": "90888",
+            "price": 650000,
+            "bedrooms": 2,
+            "bathrooms": 1.5,
+            "square_feet": 1100,
+            "property_type": "cottage",
+            "description": "A charming cottage with views of the canyon.",
+            "listing_status": "available",
+            "image_src": "/property-oak.svg",
+            "image_alt": "Illustration of a cozy cottage with oak trees.",
+            "details_href": "https://example.com/property/prop-101",
+            "amenities": [
+                "patio",
+                "hardwood-floors"
+            ],
+            "local_sponsors": [
+                {
+                    "sponsor_id": "sponsor-green-leaf",
+                    "display_priority": 1
+                }
+            ]
+        },
+        {
+            "property_id": "prop-102",
+            "title": "Modern Urban Townhome",
+            "street_address": "456 Metro Way",
+            "city": "Veridian Heights",
+            "state": "CA",
+            "zip_code": "90889",
+            "price": 785000,
+            "bedrooms": 3,
+            "bathrooms": 2.5,
+            "square_feet": 1800,
+            "property_type": "townhome",
+            "description": "Sleek multi-level living in the heart of the district.",
+            "listing_status": "pending",
+            "image_src": "/property-maple.svg",
+            "image_alt": "Modern townhome exterior with maple trees.",
+            "details_href": "https://example.com/property/prop-102",
+            "amenities": [
+                "garage",
+                "solar-panels",
+                "air-conditioning"
+            ],
+            "local_sponsors": [
+                {
+                    "sponsor_id": "sponsor-neighborhood-credit-union",
+                    "display_priority": 1
+                }
+            ]
+        },
+        {
+            "property_id": "prop-103",
+            "title": "Skyview Condominium",
+            "street_address": "789 Vista Plaza #402",
+            "city": "Veridian Heights",
+            "state": "CA",
+            "zip_code": "90888",
+            "price": 525000,
+            "bedrooms": 1,
+            "bathrooms": 1.0,
+            "square_feet": 850,
+            "property_type": "condominium",
+            "description": "High-rise living with a private balcony and pool access.",
+            "listing_status": "available",
+            "image_src": "/property-cedar.svg",
+            "image_alt": "High-rise building silhouette with cedar accents.",
+            "details_href": "https://example.com/property/prop-103",
+            "amenities": [
+                "balcony",
+                "pool",
+                "accessible-entry"
+            ],
+            "local_sponsors": [
+                {
+                    "sponsor_id": "sponsor-community-market",
+                    "display_priority": 1
+                }
+            ]
+        },
+        {
+            "property_id": "prop-104",
+            "title": "Family Ranch House",
+            "street_address": "101 Meadowlark Road",
+            "city": "Veridian Heights",
+            "state": "CA",
+            "zip_code": "90890",
+            "price": 895000,
+            "bedrooms": 4,
+            "bathrooms": 3.0,
+            "square_feet": 2400,
+            "property_type": "single-family",
+            "description": "Spacious backyard and open floor plan perfect for families.",
+            "listing_status": "available",
+            "image_src": "/property-oak.svg",
+            "image_alt": "Single-family home with a large oak tree in front.",
+            "details_href": "https://example.com/property/prop-104",
+            "amenities": [
+                "laundry",
+                "community-garden",
+                "garage"
+            ],
+            "local_sponsors": [
+                {
+                    "sponsor_id": "sponsor-green-leaf",
+                    "display_priority": 1
+                },
+                {
+                    "sponsor_id": "sponsor-community-market",
+                    "display_priority": 2
+                }
+            ]
+        },
+        {
+            "property_id": "prop-105",
+            "title": "Garden Level Apartment",
+            "street_address": "202 Bloom Street Apt B",
+            "city": "Veridian Heights",
+            "state": "CA",
+            "zip_code": "90888",
+            "price": 510000,
+            "bedrooms": 2,
+            "bathrooms": 1.0,
+            "square_feet": 950,
+            "property_type": "apartment",
+            "description": "Quiet garden-level unit with easy access to local shops.",
+            "listing_status": "sold",
+            "image_src": "/property-maple.svg",
+            "image_alt": "Apartment building entrance with maple landscaping.",
+            "details_href": "https://example.com/property/prop-105",
+            "amenities": [
+                "accessible-entry",
+                "hardwood-floors"
+            ],
+            "local_sponsors": [
+                {
+                    "sponsor_id": "sponsor-neighborhood-credit-union",
+                    "display_priority": 1
+                }
+            ]
+        }
+    ]
+}

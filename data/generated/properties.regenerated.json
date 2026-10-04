@@ -1,0 +1,150 @@
+{
+    "records": [
+        {
+            "property_id": "property-solana-cottage-101",
+            "title": "Charming Solana Cottage",
+            "street_address": "742 Juniper Way",
+            "city": "Solana Springs",
+            "state": "CA",
+            "zip_code": "90555",
+            "price": 550000,
+            "bedrooms": 2,
+            "bathrooms": 1.0,
+            "square_feet": 950,
+            "property_type": "cottage",
+            "description": "A delightful cottage featuring a private garden and original hardwood floors.",
+            "listing_status": "available",
+            "image_src": "/property-oak.svg",
+            "image_alt": "A cozy cottage nestled under a large oak tree.",
+            "details_href": "https://example.com/property/property-solana-cottage-101",
+            "amenities": [
+                "patio",
+                "hardwood-floors"
+            ],
+            "local_sponsors": [
+                {
+                    "sponsor_id": "sponsor-green-leaf",
+                    "display_priority": 1
+                }
+            ]
+        },
+        {
+            "property_id": "property-mariposa-townhome-202",
+            "title": "Modern Mariposa Townhome",
+            "street_address": "1200 Vista Blvd",
+            "city": "Mariposa Hills",
+            "state": "CA",
+            "zip_code": "90556",
+            "price": 725000,
+            "bedrooms": 3,
+            "bathrooms": 2.5,
+            "square_feet": 1600,
+            "property_type": "townhome",
+            "description": "Sleek multi-level townhome with energy-efficient solar panels and a private garage.",
+            "listing_status": "pending",
+            "image_src": "/property-maple.svg",
+            "image_alt": "A modern townhome with maple trees in the front yard.",
+            "details_href": "https://example.com/property/property-mariposa-townhome-202",
+            "amenities": [
+                "garage",
+                "solar-panels"
+            ],
+            "local_sponsors": [
+                {
+                    "sponsor_id": "sponsor-neighborhood-credit-union",
+                    "display_priority": 1
+                }
+            ]
+        },
+        {
+            "property_id": "property-azure-condo-303",
+            "title": "Azure Creek Luxury Condo",
+            "street_address": "88 Skyview Terrace #4C",
+            "city": "Azure Creek",
+            "state": "CA",
+            "zip_code": "90557",
+            "price": 610000,
+            "bedrooms": 2,
+            "bathrooms": 2.0,
+            "square_feet": 1100,
+            "property_type": "condominium",
+            "description": "High-rise living with a private balcony overlooking the canyon and pool access.",
+            "listing_status": "available",
+            "image_src": "/property-cedar.svg",
+            "image_alt": "A high-rise building with cedar accents on the balconies.",
+            "details_href": "https://example.com/property/property-azure-condo-303",
+            "amenities": [
+                "balcony",
+                "pool",
+                "air-conditioning"
+            ],
+            "local_sponsors": [
+                {
+                    "sponsor_id": "sponsor-community-market",
+                    "display_priority": 1
+                }
+            ]
+        },
+        {
+            "property_id": "property-solana-family-404",
+            "title": "Spacious Solana Family Home",
+            "street_address": "455 Oakwood Drive",
+            "city": "Solana Springs",
+            "state": "CA",
+            "zip_code": "90555",
+            "price": 895000,
+            "bedrooms": 4,
+            "bathrooms": 3.0,
+            "square_feet": 2200,
+            "property_type": "single-family",
+            "description": "Large family residence with a community garden nearby and ample storage space.",
+            "listing_status": "available",
+            "image_src": "/property-oak.svg",
+            "image_alt": "A large single-family home with a sprawling oak tree.",
+            "details_href": "https://example.com/property/property-solana-family-404",
+            "amenities": [
+                "laundry",
+                "community-garden",
+                "garage"
+            ],
+            "local_sponsors": [
+                {
+                    "sponsor_id": "sponsor-green-leaf",
+                    "display_priority": 1
+                },
+                {
+                    "sponsor_id": "sponsor-community-market",
+                    "display_priority": 2
+                }
+            ]
+        },
+        {
+            "property_id": "property-mariposa-garden-505",
+            "title": "Mariposa Garden Apartment",
+            "street_address": "3100 Lowland Ave #12",
+            "city": "Mariposa Hills",
+            "state": "CA",
+            "zip_code": "90556",
+            "price": 505000,
+            "bedrooms": 1,
+            "bathrooms": 1.0,
+            "square_feet": 750,
+            "property_type": "apartment",
+            "description": "Quiet garden-level apartment with accessible entry and polished hardwood floors.",
+            "listing_status": "sold",
+            "image_src": "/property-maple.svg",
+            "image_alt": "An apartment complex entrance surrounded by maple trees.",
+            "details_href": "https://example.com/property/property-mariposa-garden-505",
+            "amenities": [
+                "accessible-entry",
+                "hardwood-floors"
+            ],
+            "local_sponsors": [
+                {
+                    "sponsor_id": "sponsor-neighborhood-credit-union",
+                    "display_priority": 1
+                }
+            ]
+        }
+    ]
+}
