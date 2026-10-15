@@ -90,3 +90,64 @@ Pending Gemini review.
 ### Related Commit
 
 To be added after the files are committed.
+
+## Interaction 2: Ethical Review of Discovery Questions
+
+- **Date:** October 15, 2026
+- **Tool:** Google Gemini
+- **Purpose:** Review candidate interview questions for leading wording,
+  embedded assumptions, privacy risks, redundancy, and missing coverage.
+
+### Exact Prompt
+
+Act as an ethical research-methods reviewer. Review the 12 candidate
+questions for leading or biased wording, embedded assumptions,
+privacy-invasive requests, compound questions, participant pressure,
+and missing coverage. For each question, provide a Keep, Revise, or
+Remove verdict, explain the concern, and provide a neutral replacement
+when needed. Do not answer the interview questions or invent stakeholder
+preferences. Finish by recommending the strongest eight questions.
+
+The complete prompt included all 12 candidate questions from the
+interview guide.
+
+### Useful Output
+
+Gemini identified that the original permissions question combined too
+many actions. It also identified overlap between the two inquiry
+questions. Gemini confirmed that the remaining questions were neutral
+and did not request sensitive personal information.
+
+### Rejected or Modified Output
+
+Gemini's final list was not accepted unchanged. Its recommended
+Questions 1, 6, and 8 combined multiple topics even though its critique
+identified compound questions as a concern. The questions were revised
+to keep related subjects together and make participant responses easier
+to interpret.
+
+The phrase "role-based access controls" was not used in the final guide
+because it is technical language that some stakeholders may not
+understand. The final question instead asks who should be allowed to
+perform each action.
+
+### Verification Performed
+
+Each recommendation was compared with:
+
+- The original candidate questions
+- The Lab 4 requirement for eight neutral questions
+- The required topics of workflow, audience, approval, success
+  measures, and accessibility
+- The unresolved access questions that will inform Lab 5
+- The requirement to avoid unnecessary sensitive information
+
+### Final Decision
+
+Eight revised questions were accepted. Unsupported stakeholder claims
+were not added. The questions remain discovery questions and do not
+establish confirmed requirements until interview evidence is reviewed.
+
+### Related Commit
+
+To be added after the files are committed.

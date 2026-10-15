@@ -54,8 +54,51 @@ access rules for a later database implementation.
 12. What concerns would you have about submitting, storing, or displaying
     information through this platform?
 
-## Selection Status
+## Gemini Review
 
-These questions are candidates only. They must be reviewed by Gemini
-for leading language and privacy risks before the final eight questions
-are selected.
+Gemini reviewed the candidate questions for leading language, embedded
+assumptions, privacy risks, participant pressure, redundancy, and
+coverage.
+
+Gemini recommended keeping Questions 1, 2, 3, 5, 6, 7, 8, 10, 11,
+and 12. It recommended revising Questions 4 and 9 because Question 4
+combined several permissions and Question 9 overlapped with the inquiry
+workflow covered by Question 8.
+
+The critique was useful, but Gemini's proposed final list was not
+accepted unchanged. Some recommended questions combined several topics
+after the critique had identified compound questions as a concern.
+
+## Final Eight Interview Questions
+
+1. How do you currently create, review, and update property or sponsor
+   content?
+
+2. Who is the intended audience for your content, and what information
+   does that audience need?
+
+3. What responsibilities should each user role have during content
+   creation, review, publication, correction, and removal?
+
+4. What should happen when submitted content is rejected or requires
+   corrections?
+
+5. Which property and sponsor information should be publicly visible,
+   and which information should remain restricted?
+
+6. How should visitors submit inquiries, and who should be allowed to
+   view and respond to them?
+
+7. What measures would help determine whether the platform is meeting
+   your needs?
+
+8. What accessibility or device-related needs should the platform
+   support?
+
+## Selection Rationale
+
+The final questions cover current workflow, audience needs, content
+ownership, approval responsibilities, rejected content, public and
+restricted information, visitor inquiries, success measures, and
+accessibility. Questions requesting private financial, credit,
+demographic, or personally identifying information were excluded.
