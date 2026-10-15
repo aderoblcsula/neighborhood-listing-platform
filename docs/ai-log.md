@@ -34,3 +34,59 @@
 | Remove `aria-describedby="filter-message"` from the entire form | **Accepted** | Associating a changing message with the entire form could cause repetitive announcements whenever controls receive focus. |
 | Change the live region from `polite` to `assertive` | **Rejected** | The error is important but not an emergency. An assertive announcement may interrupt other screen-reader speech. The existing polite status region provides feedback without unnecessary interruption. |
 | Connect invalid selects directly to the error message | **Accepted** | It gives each invalid control a programmatic relationship with the explanation of its invalid state. |
+
+# AI Collaboration Log
+
+## Interaction 1: Discovery Question Generation
+
+- **Date:** October 15, 2026
+- **Tool:** ChatGPT
+- **Purpose:** Generate candidate stakeholder discovery questions.
+- **Stakeholders:** Property professionals and local sponsors.
+
+### Exact Prompt
+
+Generate 12 neutral discovery questions for two stakeholder groups:
+property professionals and local sponsors using a neighborhood property
+listing platform. Cover current workflow, audience, required content,
+content approval, ownership and access, inquiries, success measures,
+and accessibility. Avoid leading questions, requests for sensitive
+personal information, and assumptions that a proposed feature is useful.
+The questions should help identify candidate product requirements and
+access rules for a later database implementation.
+
+### Useful Output
+
+ChatGPT produced 12 questions covering:
+
+- Current content workflows
+- Required listing and sponsor information
+- Intended audiences
+- Content ownership and permissions
+- Review and approval stages
+- Rejected content
+- Public and restricted information
+- Visitor inquiries
+- Success measures
+- Accessibility
+- Privacy and data concerns
+
+### Output Not Yet Accepted
+
+The questions have not yet been treated as final interview questions.
+Gemini must first review them for leading wording, assumptions, and
+privacy risks.
+
+### Verification Planned
+
+The team will compare Gemini's critique with the original questions.
+The final interview guide will contain eight neutral questions covering
+the required discovery topics.
+
+### Final Decision
+
+Pending Gemini review.
+
+### Related Commit
+
+To be added after the files are committed.
