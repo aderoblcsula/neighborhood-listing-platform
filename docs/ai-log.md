@@ -151,3 +151,54 @@ establish confirmed requirements until interview evidence is reviewed.
 ### Related Commit
 
 To be added after the files are committed.
+## Interaction 3: Invitation and Consent Review
+
+- **Date:** October 18, 2026
+- **Tool:** Google Gemini
+- **Purpose:** Review and simplify the stakeholder invitation and
+  consent language.
+
+### Prompt Pattern
+
+Gemini was asked to audit the invitation for academic context,
+voluntary participation, withdrawal rights, de-identification, data
+use, tone, reading length, and freedom from sales language.
+
+### Useful Output
+
+Gemini produced a concise notice that clearly identified:
+
+- CIS 3610 and California State University, Los Angeles
+- The 15–20 minute time commitment
+- Voluntary participation
+- The right to skip questions or withdraw
+- De-identification and academic data use
+- A warning against sharing sensitive information
+
+### Rejected or Modified Output
+
+The course title "Web Design and Development" was not retained because
+the official title was not verified.
+
+Repository placeholders for student and instructor email addresses were
+removed to avoid publishing unnecessary contact information.
+
+The implied-consent statement based on continuing the conversation was
+replaced with explicit consent questions.
+
+Additional language was added to disclose AI-assisted analysis, prohibit
+sales or marketing use, require separate recording permission, and
+identify the current interviews as simulated.
+
+### Verification Performed
+
+The revised notice was compared with the Lab 4 requirements for
+institutional context, time commitment, voluntary participation,
+de-identification, academic use, transparent AI assistance, and
+permission-based outreach.
+
+### Final Decision
+
+Gemini's concise structure was retained, but its draft was revised to
+include the missing simulation and AI-use disclosures. No outreach
+occurred.
