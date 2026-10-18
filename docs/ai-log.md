@@ -202,3 +202,67 @@ permission-based outreach.
 Gemini's concise structure was retained, but its draft was revised to
 include the missing simulation and AI-use disclosures. No outreach
 occurred.
+
+## Interaction 4: Simulated Property-Professional Interviews
+
+- **Date:** October 18, 2026
+- **Tool:** Google Gemini
+- **Purpose:** Generate three synthetic property-professional interview
+  scenarios using the same eight discovery questions.
+
+### Prompt Pattern
+
+Gemini was instructed to create simulated interviews for an independent
+real-estate agent, residential property manager, and small leasing-office
+coordinator. It was required to label all responses as simulated, avoid
+personal or sensitive information, permit conflicting answers, and
+produce eight responses per role.
+
+### Useful Output
+
+Gemini produced 24 structured responses covering:
+
+- Existing listing workflows
+- Intended audiences
+- Content responsibilities
+- Rejection and correction processes
+- Public and restricted information
+- Inquiry access
+- Success measures
+- Accessibility and device support
+
+The responses also included candidate needs and uncertainties requiring
+later confirmation.
+
+### Rejected or Corrected Output
+
+Gemini mislabeled the response located between SIM-PROP-02 Q02 and Q04
+as SIM-PROP-03 Q03. This produced seven labeled responses for
+SIM-PROP-02 and nine for SIM-PROP-03.
+
+The record was corrected to:
+
+- Stakeholder ID: SIM-PROP-02
+- Operational Role: Residential property manager
+- Question ID: Q03
+
+Statements describing dashboards, analytics, bulk imports, automated
+logs, and specific permission structures were retained only as
+AI-generated candidate ideas. They were not treated as confirmed
+stakeholder requirements.
+
+### Verification Performed
+
+The student counted responses by stakeholder and question ID. After the
+label correction, each of the three simulated stakeholders contained
+exactly one response for Q01 through Q08.
+
+The notes were also reviewed for names, contact information, customer
+records, credentials, financial records, and other sensitive data. None
+were included.
+
+### Final Decision
+
+The corrected responses may be used for theme extraction and database
+practice. They remain synthetic and cannot establish genuine
+stakeholder consensus.
