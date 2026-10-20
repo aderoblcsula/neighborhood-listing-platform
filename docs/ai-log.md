@@ -359,3 +359,8 @@ claims. No real stakeholder information was included.
 The sponsor responses may be used for theme extraction, persona
 development, and candidate requirements. They remain simulated and do
 not establish stakeholder consensus.
+
+Useful output: Four supported themes, stakeholder differences, uncertainties, and traceability identifiers.
+Rejected or revised output: Field locking, cookie tracking, automatic submission blocking, batch-import claims, and other unconfirmed implementation details.
+Verification: Compared every theme and requirement against all 24 simulated sponsor responses.
+Decision: Retained supported findings as hypotheses and moved implementation choices to inferences or uncertainties.
