@@ -364,3 +364,17 @@ Useful output: Four supported themes, stakeholder differences, uncertainties, an
 Rejected or revised output: Field locking, cookie tracking, automatic submission blocking, batch-import claims, and other unconfirmed implementation details.
 Verification: Compared every theme and requirement against all 24 simulated sponsor responses.
 Decision: Retained supported findings as hypotheses and moved implementation choices to inferences or uncertainties.
+
+### Property Theme and Persona Review
+
+- **Useful output:** Retained themes concerning listing review, public/private
+  data separation, inquiry routing, and accessibility.
+- **Rejected or revised output:** Removed unsupported assumptions concerning
+  automatic rate limiting, mandatory low-bandwidth caching, physical database
+  separation, and specific notification technologies.
+- **Verification:** The themes and persona were compared with the 24 simulated property responses
+stored in Lab4_Simulated_Stakeholders.accdb. The database contains Q01 through
+Q08 for SIM-PROP-01, SIM-PROP-02, and SIM-PROP-03. Claims not directly
+supported by those responses remain labeled as inferences or uncertainties.
+- **Decision:** All findings remain simulated, evidence-based working
+  hypotheses rather than confirmed stakeholder requirements.

@@ -8,6 +8,7 @@
 > This output is evidence from a simulated academic exercise. It has not been
 > accepted as verified stakeholder fact.
 
+## Exact Prompt
 Convert the following de-identified, simulated local-sponsor interview notes
 into themes, uncertainties, and candidate requirements.
 
@@ -39,6 +40,7 @@ Use this output structure:
 - Interpretation:
 - Inference, if any:
 
+## Original AI Studio Output
 Themes
 
 Theme 1: Multi-Stage Editorial Governance and Field-Level Revision Workflows

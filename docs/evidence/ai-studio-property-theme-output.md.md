@@ -1,4 +1,8 @@
 # Raw AI Studio Theme Extraction
+**Date:** 2026-10-20  
+**Tool:** Google AI Studio  
+**Source:** De-identified simulated property-professional interview notes  
+**Status:** Raw AI-generated output preserved for verification
 
 ## Evidence Notice
 
