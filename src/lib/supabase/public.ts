@@ -12,10 +12,12 @@ function requireEnvironmentVariable(name: string): string {
 	return value;
 }
 
-export function createServerDatabaseClient() {
+export function createPublicDatabaseClient() {
 	return createClient(
 		requireEnvironmentVariable("SUPABASE_URL"),
-		requireEnvironmentVariable("SUPABASE_SECRET_KEY"),
+		requireEnvironmentVariable(
+			"NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY",
+		),
 		{
 			auth: {
 				autoRefreshToken: false,
