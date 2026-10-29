@@ -421,3 +421,239 @@ Every Gemini finding was compared with:
 Only corrections supported by course requirements, security principles, or
 clearly labeled MVP decisions were retained. Simulated findings remain working
 hypotheses rather than confirmed stakeholder requirements.
+
+## Interaction 8: PostgreSQL, RLS, and CRUD Implementation Review
+
+- **Date:** October 28, 2026
+- **Tool:** ChatGPT
+- **Purpose:** Review and implement the Lab 5 database schema, RLS controls,
+  server-only database access, validated routes, denial tests, and UI
+  integration.
+
+### Exact Prompt Pattern
+
+Review this PostgreSQL schema and RLS plan as a defensive database
+engineer. Identify privilege escalation, ownership, validation, and
+cascade risks. Give executable tests, but use placeholders for all
+credentials.
+
+The review was performed iteratively while implementing the migration,
+RLS tests, server clients, GET and PATCH routes, and database-backed UI.
+
+### Useful Output
+
+The following recommendations were accepted:
+
+- Store schema changes in a numbered migration.
+- Enable RLS on every exposed table and default to deny.
+- Permit anonymous reads only for approved properties and active sponsors.
+- Restrict authenticated updates to records owned by the current user.
+- Prevent clients from changing `owner_id` or `review_status`.
+- Keep the Supabase secret key in a `server-only` module.
+- Use a separate publishable-key client for public RLS-protected reads.
+- Select an explicit list of public columns in the listings route.
+- Validate PATCH bodies with Ajv and reject additional properties.
+- Return generic client errors while logging database details only on the
+  server.
+- Test anonymous, owner, other-user, and elevated-role behavior with pgTAP.
+- Add loading, empty, and error states to the listings UI.
+
+### Rejected or Corrected Output
+
+The following suggestions or initial implementations were not retained:
+
+- A strict UUID-version regular expression was rejected because the
+  fictional PostgreSQL UUID fixtures used structurally valid UUID values
+  that did not encode a conventional version digit.
+- The initial API column names `image_source` and `image_alt_text` were
+  rejected after the migration confirmed the actual names were
+  `image_src` and `image_alt`.
+- The privileged secret-key client was not used for public listing reads
+  because it would bypass RLS.
+- Database errors were not returned directly to clients.
+- `npm audit fix --force` was rejected because it could introduce
+  uncontrolled breaking dependency changes.
+- RLS was not disabled when public reads initially failed.
+- Real credentials, production data, and real stakeholder information were
+  not added to tests, documentation, screenshots, or Git.
+
+### Verification Performed
+
+Verification included:
+
+- Rebuilding the local database from the numbered migration and fictional
+  seed.
+- Running 35 pgTAP tests with all tests passing.
+- Running 13 Vitest tests across four test files.
+- Completing a successful Next.js production build.
+- Confirming `GET /api/listings` returned HTTP 200 with only two approved
+  fictional listings.
+- Confirming unauthenticated PATCH returned HTTP 401.
+- Confirming an attempted `review_status` update returned HTTP 400.
+- Confirming a fake bearer token returned HTTP 401.
+- Confirming the UI displayed database-backed approved listings.
+- Confirming the UI displayed a safe error state when the database was
+  unavailable.
+- Confirming `.env.local` was ignored.
+- Scanning tracked files and Git history for Supabase secret-key and
+  JWT-shaped values with no matches.
+- Confirming `git status --short` returned no uncommitted changes.
+
+### Related Commits
+
+- `b59eb40` — schema, RLS policies, and fictional seed
+- `e365f4f` — RLS authorization coverage
+- `5cf9cb3` — server database dependencies
+- `f0a7a05` — server-only database client
+- `8025ffe` — RLS-backed listings GET route
+- `821b593` — validated owner listing updates
+- `13112fb` — database-backed listings UI
+
+### Final Decision
+
+The accepted implementation uses migration-controlled PostgreSQL,
+default-deny RLS, separate privileged and restricted clients, explicit
+column selection, runtime input validation, safe errors, fictional data,
+and executable denial tests. The optional `audit_events` extension was
+deferred because it was not required for the core lab.
+
+## Interaction 9: Defensive Schema and RLS Critique
+
+- **Date:** October 28, 2026
+- **Tool:** Google Gemini
+- **Purpose:** Independently review the PostgreSQL schema, grants, RLS
+  policies, triggers, cascade behavior, and tests for security weaknesses.
+
+### Exact Prompt
+
+Review this PostgreSQL schema and row-level-security plan as a defensive
+database engineer.
+
+Identify:
+1. privilege-escalation risks,
+2. ownership-bypass risks,
+3. missing input or database validation,
+4. unsafe foreign-key cascade behavior,
+5. ways a user might approve their own record,
+6. risks involving anonymous, authenticated, administrator, or service-role
+   access.
+
+Evaluate whether:
+- public users can read only approved properties and active sponsors,
+- authenticated owners can modify only their own unapproved properties,
+- ownership and review-status fields are protected,
+- inquiry information cannot be read by unrelated users,
+- administrator actions remain server-side,
+- all exposed tables default to deny.
+
+Provide executable pgTAP or SQL test cases for any important gaps you
+identify. Use placeholders for all credentials and do not request or
+reproduce secrets, private data, production URLs, or real user
+information.
+
+Separate your response into:
+- confirmed strengths,
+- risks,
+- recommended changes,
+- executable tests,
+- assumptions requiring manual verification.
+
+The numbered migration and pgTAP RLS test file were supplied with the
+prompt. No environment files or credentials were supplied.
+
+### Useful Output
+
+Gemini correctly identified and confirmed:
+
+- Every exposed table uses explicit grants and RLS with a default-deny
+  posture.
+- Column-level grants prevent ordinary authenticated users from directly
+  updating ownership and review-state columns.
+- Database constraints validate important lengths, ranges, formats, and
+  allowed values.
+- Triggers prevent owners from changing immutable ownership fields or
+  approving their own content.
+- Anonymous users cannot select inquiry records.
+- Inquiry reads are restricted to the relevant property owner.
+- URL fields deserve additional scheme validation because arbitrary stored
+  link values could become unsafe when rendered by an application.
+- Inquiry creation should consider property availability as well as approval
+  and `accepts_inquiries`.
+- Supabase authentication claims and server-only administrator execution
+  require integration-level verification beyond static SQL review.
+
+### Rejected or Modified Output
+
+Gemini's URL recommendation was not accepted unchanged. Requiring every
+`image_src` value to begin with `https://` would reject the project's valid
+same-origin image paths, including `/property-cedar.svg` and
+`/property-oak.svg`. Any future database constraint must permit approved
+same-origin paths while rejecting unsafe schemes such as `javascript:` and
+unrestricted `data:` values.
+
+The recommendation to add client-facing administrator RLS policies was
+rejected. The assignment explicitly requires administrator actions to use
+trusted server-side authorization. The `administrator` profile value is
+application metadata and does not independently grant PostgreSQL privileges.
+Adding broad administrator RLS policies would unnecessarily increase the
+client-facing attack surface.
+
+The recommendation to remove `administrator` from the profile role constraint
+was also rejected. Retaining the value does not create privilege escalation
+because neither the value nor the profile table grants service-role
+capabilities.
+
+No additional profile-role check was added because the existing role
+constraint, column-level update grant, and own-profile RLS policy already
+prevent ordinary users from changing their role. A trigger may be considered
+later as redundant defense in depth, but it is not required for the current
+MVP.
+
+Database-level rate limiting was not accepted as an RLS requirement. Rate
+limiting generally requires application, gateway, or infrastructure context
+such as request timing and network identity. It remains a deployment
+hardening item rather than part of this local persistence lab.
+
+Gemini's proposed `super_admin` insertion test was rejected as an
+administrator-isolation test. It verifies only that an unsupported role value
+violates the role check constraint; it does not verify authorization for a
+valid `administrator` profile.
+
+The proposed URL test must not be considered valid until safe URL constraints
+are implemented. It must also ensure its owner fixture satisfies foreign-key
+requirements so that a foreign-key failure cannot be mistaken for a URL
+validation success.
+
+### Verification Performed
+
+Gemini's findings were compared with:
+
+- The numbered PostgreSQL migration
+- Column-level grants
+- RLS policies and trigger functions
+- The fictional seed records
+- The 35-test pgTAP authorization suite
+- The publishable-key public listings client
+- The server-only privileged client
+- The authenticated PATCH route
+- Ajv update validation
+- Browser and `curl` integration evidence
+- The instructor requirement that administrators use server-side
+  authorization
+
+The final database was rebuilt from the migration and seed. All 35 pgTAP
+tests passed. The approved-listings endpoint returned HTTP 200 with only two
+approved fictional records, and the UI rendered the same two records.
+
+### Final Decision
+
+Gemini's confirmation of the default-deny design, constrained ownership,
+self-approval prevention, and inquiry privacy was retained.
+
+Safe URL handling and availability-aware inquiry creation were retained as
+defense-in-depth findings requiring targeted implementation or explicit
+deferment. Broad client-side administrator policies, removal of the
+administrator metadata value, database-level rate limiting, and the mislabeled
+administrator test were rejected.
+
+No Gemini-generated SQL was executed without manual review.
