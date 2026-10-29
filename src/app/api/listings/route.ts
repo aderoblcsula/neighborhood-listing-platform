@@ -16,6 +16,7 @@ const LISTING_COLUMNS = `
 	description,
 	image_src,
 	image_alt,
+	details_href,
 	created_at
 `;
 
