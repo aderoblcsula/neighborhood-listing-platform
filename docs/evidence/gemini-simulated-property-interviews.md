@@ -1,0 +1,332 @@
+# Raw Gemini Simulated Property Interviews
+
+## Evidence Notice
+
+This file preserves Gemini's original, uncorrected output. The output
+contains one stakeholder-labeling error that is documented and corrected
+in `docs/simulated-interview-notes.md`.
+
+These responses are synthetic. They do not represent real people,
+actual interviews, or validated stakeholder requirements.
+
+## Exact Prompt
+
+Create three synthetic property-professional stakeholder interviews for
+a CIS 3610 academic discovery exercise involving a neighborhood
+property-listing platform.
+
+Use these simulated operational roles:
+
+- SIM-PROP-01: Independent real-estate agent
+- SIM-PROP-02: Residential property manager
+- SIM-PROP-03: Small leasing-office coordinator
+
+Important rules:
+
+1. Clearly label all people and responses as simulated.
+2. Answer the same eight questions for each role.
+3. Keep each answer between two and four sentences.
+4. Focus only on professional workflows, operational responsibilities,
+   content approvals, information access, inquiries, success measures,
+   and accessibility.
+5. Do not invent names, ages, income, hobbies, family details,
+   protected characteristics, or fictional personal histories.
+6. Do not claim these responses came from real interviews.
+7. Describe current practices separately from desired improvements.
+8. Allow the stakeholders to disagree or have different workflows.
+9. Do not assume every proposed platform feature is useful.
+10. If a simulated stakeholder would not control or know an answer,
+    state that the issue requires confirmation from an administrator,
+    owner, compliance reviewer, or another appropriate role.
+11. Do not provide legal conclusions.
+12. Do not request or include confidential, identifying, credit,
+    financial, or customer information.
+13. Do not turn repeated AI-generated responses into a claim of
+    stakeholder consensus.
+
+Use this format for every answer:
+
+Stakeholder ID:
+Operational Role:
+Question ID:
+Question:
+Simulated Response:
+Candidate Need:
+Uncertainty or Follow-Up:
+
+Questions:
+
+Q01. How do you currently create, review, and update property or sponsor
+content?
+
+Q02. Who is the intended audience for your content, and what information
+does that audience need?
+
+Q03. What responsibilities should each user role have during content
+creation, review, publication, correction, and removal?
+
+Q04. What should happen when submitted content is rejected or requires
+corrections?
+
+Q05. Which property and sponsor information should be publicly visible,
+and which information should remain restricted?
+
+Q06. How should visitors submit inquiries, and who should be allowed to
+view and respond to them?
+
+Q07. What measures would help determine whether the platform is meeting
+your needs?
+
+Q08. What accessibility or device-related needs should the platform
+support?
+
+Produce all 24 stakeholder-question responses. After the responses,
+include a section titled "Simulation Limitations" explaining that the
+content is AI-generated and requires confirmation from real
+stakeholders before being treated as validated requirements.
+
+## Original Gemini Output
+
+Stakeholder ID: SIM-PROP-01
+Operational Role: Independent real-estate agent
+Question ID: Q01
+Question: How do you currently create, review, and update property or sponsor content?
+Simulated Response: As an independent agent, I manually draft listing details and update sponsor highlights using a mix of local templates and direct database entry tools. Review steps are handled independently before I push updates live to external portals. Whenever property specifics or sponsor details change, I must remember to update each platform separately.
+Candidate Need: A unified dashboard where property details and sponsor tags can be updated simultaneously without duplicate data entry.
+Uncertainty or Follow-Up: Requires confirmation from platform administrators regarding whether agents have direct publishing permissions or require secondary approval.
+
+---
+
+Stakeholder ID: SIM-PROP-01
+Operational Role: Independent real-estate agent
+Question ID: Q02
+Question: Who is the intended audience for your content, and what information does that audience need?
+Simulated Response: The primary audience consists of prospective buyers and local business sponsors looking for neighborhood amenities and housing availability. They need accurate pricing, square footage, verified room counts, and clear neighborhood sponsor highlights. Providing transparent and direct property details prevents miscommunication during initial client inquiries.
+Candidate Need: Clear, scannable property specifications paired with prominent local sponsor highlights for visiting prospective buyers.
+Uncertainty or Follow-Up: Requires consultation with community sponsors to verify what specific operational or promotional details they want visible to the public.
+
+---
+
+Stakeholder ID: SIM-PROP-01
+Operational Role: Independent real-estate agent
+Question ID: Q03
+Question: What responsibilities should each user role have during content creation, review, publication, correction, and removal?
+Simulated Response: Independent agents should be able to draft, correct, and remove their own listings while sponsors manage their respective badge content. Platform administrators should retain final oversight to review and publish content updates to ensure accuracy. Clear role boundaries prevent unauthorized listing modifications across the shared neighborhood catalog.
+Candidate Need: Granular role-based permissions defining who can draft, review, publish, and archive records.
+Uncertainty or Follow-Up: Needs review by system administrators to establish the exact workflow states between draft submission and final publication.
+
+---
+
+Stakeholder ID: SIM-PROP-01
+Operational Role: Independent real-estate agent
+Question ID: Q04
+Question: What should happen when submitted content is rejected or requires corrections?
+Simulated Response: The system should generate an explicit notification explaining why the listing or sponsor content was flagged or rejected. I need to be able to edit the specific fields highlighted by the reviewer and resubmit the record for approval. Automated error logs help minimize publication delays for time-sensitive real estate listings.
+Candidate Need: Clear inline validation errors and notification logs when an administrator flags content for revision.
+Uncertainty or Follow-Up: Requires confirmation on whether rejected items are saved as editable drafts or returned to a locked review queue.
+
+---
+
+Stakeholder ID: SIM-PROP-01
+Operational Role: Independent real-estate agent
+Question ID: Q05
+Question: Which property and sponsor information should be publicly visible, and which information should remain restricted?
+Simulated Response: Property addresses, pricing, basic specifications, and sponsor business names should be visible to the general public. Private showing instructions, internal agent notes, and direct sponsor contact logs must remain restricted to authenticated users. Restricting internal workflow data protects proprietary transaction details from public exposure.
+Candidate Need: Strict visibility toggles separating public-facing property marketing details from restricted internal management notes.
+Uncertainty or Follow-Up: Requires compliance confirmation regarding which specific sponsor records contain restricted data that cannot be exposed publicly.
+
+---
+
+Stakeholder ID: SIM-PROP-01
+Operational Role: Independent real-estate agent
+Question ID: Q06
+Question: How should visitors submit inquiries, and who should be allowed to view and respond to them?
+Simulated Response: Visitors should submit questions through an integrated web form that routes inquiries directly to the listing agent. Only the assigned agent and authorized platform administrators should be permitted to view and manage these inquiry records. Keeping inquiry channels structured prevents messages from getting lost in general email inboxes.
+Candidate Need: Secure inquiry submission forms with role-restricted routing to designated listing agents or coordinators.
+Uncertainty or Follow-Up: Requires confirmation on whether inquiry logs should be archived centrally or routed directly to external agent email addresses.
+
+---
+
+Stakeholder ID: SIM-PROP-01
+Operational Role: Independent real-estate agent
+Question ID: Q07
+Question: What measures would help determine whether the platform is meeting your needs?
+Simulated Response: Key success metrics include reduced time-to-publish for new listings and fewer manual errors across property updates. I also measure effectiveness by tracking the volume and quality of legitimate prospective buyer inquiries generated through the platform. System stability and fast page load times directly impact my daily operational efficiency.
+Candidate Need: Analytics dashboards tracking publishing speed, error rates, and inquiry generation volume.
+Uncertainty or Follow-Up: Requires validation from administrative leads to determine which operational metrics are tracked centrally versus agent-side.
+
+---
+
+Stakeholder ID: SIM-PROP-01
+Operational Role: Independent real-estate agent
+Question ID: Q08
+Question: What accessibility or device-related needs should the platform support?
+Simulated Response: The platform must work seamlessly on mobile phones and tablets since I frequently manage listings while visiting properties on-site. High-contrast text sizing and screen-reader compatibility are essential for meeting accessibility standards across diverse user groups. Responsive design ensures I can review listings quickly regardless of the device I am using.
+Candidate Need: Mobile-responsive layout and full keyboard navigation supporting WCAG accessibility standards.
+Uncertainty or Follow-Up: Requires technical confirmation regarding specific browser and mobile device testing matrices used for accessibility compliance.
+
+---
+
+Stakeholder ID: SIM-PROP-02
+Operational Role: Residential property manager
+Question ID: Q01
+Question: How do you currently create, review, and update property or sponsor content?
+Simulated Response: As a residential property manager, I batch-update building availability and sponsor lease terms through property management software export tools. Content reviews are conducted internally with our leasing team before publishing updates to our public channels. Keeping multi-family unit records synchronized requires structured review steps to prevent posting outdated rental rates.
+Candidate Need: Bulk data import tools with built-in schema validation for managing multi-unit residential properties and sponsors.
+Uncertainty or Follow-Up: Requires confirmation from platform owners on whether automated batch synchronization feeds will be supported for multi-unit properties.
+
+---
+
+Stakeholder ID: SIM-PROP-02
+Operational Role: Residential property manager
+Question ID: Q02
+Question: Who is the intended audience for your content, and what information does that audience need?
+Simulated Response: Our audience includes prospective apartment renters, current residents, and local business sponsors seeking neighborhood visibility. They require accurate floor plans, rental pricing, utility fee disclosures, and community amenity details. Clear information helps prospective tenants evaluate unit availability without needing immediate phone calls.
+Candidate Need: Structured unit-level specifications, floor plan details, and clear community guideline disclosures for renters.
+Uncertainty or Follow-Up: Requires input from property ownership regarding which promotional sponsor banners can be displayed alongside residential listings.
+
+---
+
+Stakeholder ID: SIM-PROP-03
+Operational Role: Small leasing-office coordinator
+Question ID: Q03
+Question: What responsibilities should each user role have during content creation, review, publication, correction, and removal?
+Simulated Response: Leasing coordinators should draft unit availability updates, while property managers review and approve the changes before publication. System administrators should retain overall platform control to audit user actions and remove expired listings. Establishing distinct responsibilities ensures that rental rates and sponsor agreements are verified before going live.
+Candidate Need: Multi-stage workflow permissions separating drafting, management review, and administrative publication steps.
+Uncertainty or Follow-Up: Requires administrative clarification on whether property coordinators can self-publish minor unit corrections without manager sign-off.
+
+---
+
+Stakeholder ID: SIM-PROP-02
+Operational Role: Residential property manager
+Question ID: Q04
+Question: What should happen when submitted content is rejected or requires corrections?
+Simulated Response: Rejected updates should generate an alert with specific feedback detailing which leasing policy or formatting rule was violated. Our team can then correct the pricing or text fields and resubmit the batch for review. Prompt notification prevents rental listings from remaining stagnant or displaying incorrect data.
+Candidate Need: Detailed rejection logs highlighting specific validation failures for quick correction and resubmission.
+Uncertainty or Follow-Up: Requires confirmation on whether rejected updates retain historical draft versions or require re-entering data from scratch.
+
+---
+
+Stakeholder ID: SIM-PROP-02
+Operational Role: Residential property manager
+Question ID: Q05
+Question: Which property and sponsor information should be publicly visible, and which information should remain restricted?
+Simulated Response: Public visitors should see general building amenities, unit pricing ranges, and approved neighborhood sponsor highlights. Restricted data must include tenant lease agreements, internal maintenance logs, and administrative property management notes. Safeguarding operational records ensures tenant privacy and maintains internal business security.
+Candidate Need: Granular data access controls separating public marketing content from internal tenant and financial records.
+Uncertainty or Follow-Up: Requires legal and compliance confirmation regarding data privacy boundaries for multi-tenant residential properties.
+
+---
+
+Stakeholder ID: SIM-PROP-02
+Operational Role: Residential property manager
+Question ID: Q06
+Question: How should visitors submit inquiries, and who should be allowed to view and respond to them?
+Simulated Response: Prospective tenants should submit inquiries through standardized contact forms linked directly to our leasing office queue. Only authorized leasing coordinators and property managers should have access to view and reply to incoming messages. Centralized inquiry management ensures that prospective tenant questions receive timely and consistent responses.
+Candidate Need: Shared leasing inquiry queues with role-based viewing and response permissions for office staff.
+Uncertainty or Follow-Up: Requires confirmation on how inquiry response times are logged and audited across different staff members.
+
+---
+
+Stakeholder ID: SIM-PROP-02
+Operational Role: Residential property manager
+Question ID: Q07
+Question: What measures would help determine whether the platform is meeting your needs?
+Simulated Response: Success is measured by how quickly unit vacancies are filled and the reduction in duplicate prospective tenant inquiries. We also track system reliability during peak leasing seasons when web traffic and update frequencies peak. Reliable performance and clear inquiry tracking directly support our building occupancy goals.
+Candidate Need: Operational reporting metrics tracking vacancy turnaround times, inquiry conversion rates, and system uptime.
+Uncertainty or Follow-Up: Requires administrative guidance on whether platform analytics will integrate with existing property management reporting tools.
+
+---
+
+Stakeholder ID: SIM-PROP-02
+Operational Role: Residential property manager
+Question ID: Q08
+Question: What accessibility or device-related needs should the platform support?
+Simulated Response: The platform must support full desktop and mobile access since our leasing staff switch between office workstations and on-site tours. Accessibility features like high-contrast text and screen-reader support are necessary for prospective renters with diverse physical needs. Ensuring robust cross-device compatibility maximizes our reach across all prospective tenant demographics.
+Candidate Need: Responsive cross-device support adhering to established web accessibility standards for public leasing portals.
+Uncertainty or Follow-Up: Requires technical review to verify how mobile device rendering handles complex multi-unit availability tables.
+
+---
+
+Stakeholder ID: SIM-PROP-03
+Operational Role: Small leasing-office coordinator
+Question ID: Q01
+Question: How do you currently create, review, and update property or sponsor content?
+Simulated Response: As a leasing-office coordinator, I input daily unit availability changes and sponsor updates into our local management system. Content goes through a quick internal review with the property manager before being posted online. Maintaining a steady update cycle ensures that prospective renters do not view rented-out units.
+Candidate Need: Simplified data-entry interfaces enabling fast, accurate daily updates for unit availability and local sponsors.
+Uncertainty or Follow-Up: Requires confirmation from property management on whether coordinator updates require mandatory supervisor sign-off before publishing.
+
+---
+
+Stakeholder ID: SIM-PROP-03
+Operational Role: Small leasing-office coordinator
+Question ID: Q02
+Question: Who is the intended audience for your content, and what information does that audience need?
+Simulated Response: Our audience consists of apartment seekers and local residents looking for current lease specials and sponsor discounts. They need clear pricing, square footage, pet policy details, and neighborhood sponsor highlights. Providing precise details reduces repetitive phone inquiries to our front desk.
+Candidate Need: Clear, accessible unit details and promotional sponsor highlights designed for prospective renters.
+Uncertainty or Follow-Up: Requires input from community stakeholders to verify which sponsor discount offers should be featured on the platform.
+
+---
+
+Stakeholder ID: SIM-PROP-03
+Operational Role: Small leasing-office coordinator
+Question ID: Q03
+Question: What responsibilities should each user role have during content creation, review, publication, correction, and removal?
+Simulated Response: Coordinators should handle daily content creation and minor corrections while property managers handle final publication approval. Administrators should manage user role assignments and oversee overall platform integrity. Clear role separation prevents unauthorized changes to active lease pricing.
+Candidate Need: Clear separation of duties between daily content entry, editorial review, and final administrative publication.
+Uncertainty or Follow-Up: Requires administrative confirmation on role permission structures for small leasing office team members.
+
+---
+
+Stakeholder ID: SIM-PROP-03
+Operational Role: Small leasing-office coordinator
+Question ID: Q04
+Question: What should happen when submitted content is rejected or requires corrections?
+Simulated Response: When updates are rejected, the system should flag the error directly on our dashboard with a brief explanation. I can then quickly adjust the pricing or text fields and resubmit the item for approval. Clear rejection alerts prevent outdated leasing information from lingering on the site.
+Candidate Need: Prompt notification alerts highlighting specific field errors requiring coordinator correction.
+Uncertainty or Follow-Up: Requires confirmation on whether rejected tasks trigger email notifications or appear only on the in-app dashboard.
+
+---
+
+Stakeholder ID: SIM-PROP-03
+Operational Role: Small leasing-office coordinator
+Question ID: Q05
+Question: Which property and sponsor information should be publicly visible, and which information should remain restricted?
+Simulated Response: Public visitors should view unit availability, pricing, basic community features, and local sponsor business listings. Restricted information should include internal staff notes, prospective tenant communications, and administrative management logs. Restricting internal files protects sensitive operational communications from public view.
+Candidate Need: Secure partitioning between public-facing marketing data and restricted internal office management records.
+Uncertainty or Follow-Up: Requires compliance confirmation regarding data retention rules for historical leasing inquiries and sponsor records.
+
+---
+
+Stakeholder ID: SIM-PROP-03
+Operational Role: Small leasing-office coordinator
+Question ID: Q06
+Question: How should visitors submit inquiries, and who should be allowed to view and respond to them?
+Simulated Response: Prospective tenants should submit questions via standard web contact forms that route directly to our front desk queue. Only authorized leasing staff and managers should have permission to view, assign, and respond to these inquiries. Centralized tracking ensures that every prospective renter receives a timely response.
+Candidate Need: Structured inquiry intake forms with role-based routing to active leasing office staff members.
+Uncertainty or Follow-Up: Requires confirmation on whether inquiry notifications are sent to individual staff emails or managed inside a shared dashboard.
+
+---
+
+Stakeholder ID: SIM-PROP-03
+Operational Role: Small leasing-office coordinator
+Question ID: Q07
+Question: What measures would help determine whether the platform is meeting your needs?
+Simulated Response: Success is measured by how quickly we can update unit availability and the volume of valid prospective tenant inquiries received. We also track how easily our staff can navigate the interface without encountering technical errors. Reliable performance during peak leasing periods is critical for our daily operations.
+Candidate Need: Usability metrics tracking update efficiency, error frequencies, and prospective tenant inquiry volume.
+Uncertainty or Follow-Up: Requires guidance from management to determine which administrative reports should be accessible to leasing coordinators.
+
+---
+
+Stakeholder ID: SIM-PROP-03
+Operational Role: Small leasing-office coordinator
+Question ID: Q08
+Question: What accessibility or device-related needs should the platform support?
+Simulated Response: The platform should work smoothly across desktop computers in our leasing office and mobile devices used during property tours. Accessibility features like clear font scaling and screen-reader support are essential for serving all prospective tenants equitably. Responsive design ensures our staff can check availability records quickly on any screen size.
+Candidate Need: Fully responsive web interfaces supporting standard accessibility compliance and multi-device usability.
+Uncertainty or Follow-Up: Requires technical confirmation regarding mobile browser testing standards for lease management workflows.
+
+---
+
+## Simulation Limitations
+
+The interviews and stakeholder responses presented above are entirely AI-generated simulations created for academic coursework purposes within CIS 3610 at California State University, Los Angeles. No real property professionals, independent agents, property managers, or leasing coordinators were contacted, and no actual stakeholder interviews took place. Consequently, these responses do not represent validated stakeholder consensus, real-world operational agreements, or verified user requirements. Before these workflows or data models are implemented in a live production environment, they require formal review, direct stakeholder consultation, and confirmation from appropriate administrative, legal, and technical authorities.
