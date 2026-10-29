@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+supabase/.branches/
+supabase/.temp/
 
 # next.js
 /.next/
