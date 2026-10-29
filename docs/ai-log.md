@@ -657,3 +657,56 @@ administrator metadata value, database-level rate limiting, and the mislabeled
 administrator test were rejected.
 
 No Gemini-generated SQL was executed without manual review.
+
+## Practical Persistence Exam — October 29, 2026
+
+Branch: `exam/practical-persistence-eval`
+
+| Step / Tool | Prompt Summary | Model Output Used | Model Output Rejected & Rationale | Verification Method | Associated Git Commit |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Part 1 / ChatGPT | Begin the updated practical exam on my personal device. | Commands to update main, create the required branch, and verify ignored files. | None for this step. | Confirmed correct remote, clean exam branch, ignore rules, and only .env.example tracked. | 9dc5556e |
+| Part 2 / ChatGPT | Continue exam preparation after confirming the collaborator invitation and branch setup. | Used the proposed requirements document containing three user stories, Given/When/Then acceptance criteria, scope estimates, and planned implementation paths. | No suggestions rejected at this stage. Inquiry and administrator route paths remain proposed implementation choices, not completed features. | Reviewed the document against the updated exam instructions; confirmed docs/requirements.md was committed and pushed. Implementation behavior has not yet been tested against these criteria. | 6d80c41 |
+| Part 3 preparation / ChatGPT | Supplied the existing migration, RLS tests, seed data, and database verification document for review before preparing the exam migration. | Followed the recommendation to inspect existing tables, policies, constraints, and triggers before changing the database. | No output rejected at this stage. No new migration has been prepared or executed during this step. | Provided source files for inspection. Review of their compatibility with the updated exam requirements is pending. | Pending — review only |
+
+### Part 1 — Exact Prompt
+
+> I am on my own device and ready to begin
+
+Follow-up input: terminal screenshot showing branch creation, installed
+tool versions, ignore-rule checks, and tracked environment filenames.
+
+### Part 2 — Prompt and Input Record
+
+Exact text prompt:
+
+> Invite is pending.
+
+Attached input: terminal screenshot confirming the exam branch was
+pushed and the initial AI-log commit was 9dc556e.
+
+ChatGPT supplied the proposed contents of docs/requirements.md.
+The resulting requirements document was committed as 6d80c41.
+
+Follow-up input: screenshot showing the requirements commit and push;
+no accompanying text prompt.
+
+### Part 3 Preparation — Input Record
+
+Files supplied:
+
+- 20261023050853_create_core_schema(1).sql
+- rls.test(1).sql
+- seed(1).sql
+- database-verification.md
+
+Exact text prompt:
+
+> What should be added to my ai-log?
+
+These uploaded filenames identify the review copies, not new migration
+filenames. Source review and exam migration implementation are pending.
+
+### Repository Access
+
+The collaborator invitation to pdt605 has been sent and is pending
+acceptance.
