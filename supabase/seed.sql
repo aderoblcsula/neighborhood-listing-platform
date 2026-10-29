@@ -25,15 +25,15 @@ values
 
 insert into public.profiles (id, display_name, role)
 values
-  ('11111111-1111-1111-1111-111111111111', 'Fictional Property Owner One', 'property_professional'),
-  ('22222222-2222-2222-2222-222222222222', 'Fictional Property Owner Two', 'property_professional'),
+  ('11111111-1111-1111-1111-111111111111', 'Fictional Property Owner One', 'property_owner'),
+  ('22222222-2222-2222-2222-222222222222', 'Fictional Property Owner Two', 'property_owner'),
   ('33333333-3333-3333-3333-333333333333', 'Fictional Sponsor Owner', 'sponsor'),
-  ('44444444-4444-4444-4444-444444444444', 'Fictional Administrator', 'administrator');
+  ('44444444-4444-4444-4444-444444444444', 'Fictional Administrator', 'admin');
 
 insert into public.properties (
-  id, owner_id, title, street_address, city, state, zip_code, price,
+  id, owner_id, title, address, city, state, zip_code, price,
   bedrooms, bathrooms, square_feet, property_type, description,
-  review_status, availability_status, image_src, image_alt, details_href,
+  status, availability_status, image_src, image_alt, details_href,
   amenities, accepts_inquiries
 )
 values
@@ -65,7 +65,7 @@ values
     'Juniper Place Apartment', '303 Fictional Juniper Road', 'Pasadena',
     'CA', '91101', 3200.00, 2, 2.0, 1100, 'apartment',
     'A fictional apartment owned by the second test professional.',
-    'pending_review', 'available', '/property-juniper.svg',
+    'pending', 'available', '/property-juniper.svg',
     'Illustration of the fictional Juniper Place apartment',
     'https://example.test/properties/juniper-place-apartment',
     array['air-conditioning', 'laundry']::text[], true
@@ -84,7 +84,7 @@ values
 
 insert into public.sponsors (
   id, owner_id, name, category, description, website_url,
-  review_status, active
+  review_status, active_status, tier
 )
 values
   (
@@ -92,14 +92,14 @@ values
     '33333333-3333-3333-3333-333333333333',
     'Fictional Neighborhood Cafe', 'food-and-dining',
     'A fictional neighborhood cafe used only for local development tests.',
-    'https://cafe.example.test', 'approved', true
+    'https://cafe.example.test', 'approved', true, 'bronze'
   ),
   (
     'bbbbbbbb-bbbb-bbbb-bbbb-000000000002',
     '33333333-3333-3333-3333-333333333333',
     'Fictional Home Services', 'home-services',
     'A fictional home-services sponsor awaiting content review.',
-    'https://home-services.example.test', 'draft', false
+    'https://home-services.example.test', 'draft', false, 'bronze'
   );
 
 insert into public.property_sponsors (
@@ -113,7 +113,7 @@ values
   );
 
 insert into public.inquiries (
-  id, property_id, sender_name, sender_email, message
+  id, property_id, sender_name, inquirer_email, message
 )
 values
   (
