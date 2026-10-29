@@ -657,3 +657,18 @@ administrator metadata value, database-level rate limiting, and the mislabeled
 administrator test were rejected.
 
 No Gemini-generated SQL was executed without manual review.
+
+## Practical Persistence Exam — October 29, 2026
+
+Branch: `exam/practical-persistence-eval`
+
+| Step / Tool | Prompt Summary | Model Output Used | Model Output Rejected & Rationale | Verification Method | Associated Git Commit |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Part 1 / ChatGPT | Begin the updated practical exam on my personal device. | Commands to update main, create the required branch, and verify ignored files. | None for this step. | Confirmed correct remote, clean exam branch, ignore rules, and only .env.example tracked. | Pending |
+
+### Part 1 — Exact Prompt
+
+> I am on my own device and ready to begin
+
+Follow-up input: terminal screenshot showing branch creation, installed
+tool versions, ignore-rule checks, and tracked environment filenames.
