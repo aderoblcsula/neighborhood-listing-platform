@@ -294,5 +294,138 @@ select results_eq(
   'Service role can manage sponsor tiers'
 );
 
+-- Additional exam cases. All changes roll back with this test file.
+reset role;
+select set_config('request.jwt.claim.sub', '', true);
+select set_config('request.jwt.claim.role', 'service_role', true);
+set local role service_role;
+
+-- Create isolated fixtures owned by Owner A.
+insert into public.properties (
+  id, owner_id, address, price, bedrooms, bathrooms,
+  square_feet, status, rejection_reason
+)
+values
+  (
+    'eeeeeeee-eeee-eeee-eeee-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    '701 Rejected Test Street', 200000, 2, 1, 900,
+    'rejected', 'Please correct the listing information.'
+  ),
+  (
+    'eeeeeeee-eeee-eeee-eeee-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    '702 Cascade Test Street', 300000, 3, 2, 1200,
+    'approved', null
+  );
+
+-- Public link, inactive-sponsor link, and private-property link.
+insert into public.property_sponsors (property_id, sponsor_id)
+values
+  (
+    'eeeeeeee-eeee-eeee-eeee-000000000002',
+    'bbbbbbbb-bbbb-bbbb-bbbb-000000000001'
+  ),
+  (
+    'eeeeeeee-eeee-eeee-eeee-000000000002',
+    'bbbbbbbb-bbbb-bbbb-bbbb-000000000002'
+  ),
+  (
+    'eeeeeeee-eeee-eeee-eeee-000000000001',
+    'bbbbbbbb-bbbb-bbbb-bbbb-000000000001'
+  );
+
+insert into public.inquiries (
+  id, property_id, inquirer_email, message
+)
+values (
+  'eeeeeeee-eeee-eeee-eeee-000000000003',
+  'eeeeeeee-eeee-eeee-eeee-000000000002',
+  'cascade-test@example.test',
+  'This fictional inquiry verifies cascading deletion.'
+);
+
+-- Anonymous sponsor-link visibility.
+reset role;
+select set_config('request.jwt.claim.sub', '', true);
+select set_config('request.jwt.claim.role', 'anon', true);
+set local role anon;
+
+select is(
+  (select count(*)::bigint from public.property_sponsors
+   where property_id = 'eeeeeeee-eeee-eeee-eeee-000000000002'
+     and sponsor_id = 'bbbbbbbb-bbbb-bbbb-bbbb-000000000001'),
+  1::bigint,
+  'Public can read an approved-property link to an active sponsor'
+);
+
+select is(
+  (select count(*)::bigint from public.property_sponsors
+   where property_id = 'eeeeeeee-eeee-eeee-eeee-000000000002'
+     and sponsor_id = 'bbbbbbbb-bbbb-bbbb-bbbb-000000000002'),
+  0::bigint,
+  'Public cannot read a link to an inactive sponsor'
+);
+
+select is(
+  (select count(*)::bigint from public.property_sponsors
+   where property_id = 'eeeeeeee-eeee-eeee-eeee-000000000001'),
+  0::bigint,
+  'Public cannot read links for a rejected property'
+);
+
+-- Owner edits a rejected listing and deletes an owned property.
+reset role;
+select set_config(
+  'request.jwt.claim.sub',
+  '11111111-1111-1111-1111-111111111111', true
+);
+select set_config('request.jwt.claim.role', 'authenticated', true);
+set local role authenticated;
+
+select results_eq(
+  $$update public.properties
+    set price = 210000
+    where id = 'eeeeeeee-eeee-eeee-eeee-000000000001'
+    returning price$$,
+  $$values (210000::numeric)$$,
+  'Owner can update their own rejected property'
+);
+
+select results_eq(
+  $$select status from public.properties
+    where id = 'eeeeeeee-eeee-eeee-eeee-000000000001'$$,
+  $$values ('rejected'::text)$$,
+  'Editing rejected content does not approve it'
+);
+
+select results_eq(
+  $$delete from public.properties
+    where id = 'eeeeeeee-eeee-eeee-eeee-000000000002'
+    returning id$$,
+  $$values ('eeeeeeee-eeee-eeee-eeee-000000000002'::uuid)$$,
+  'Owner can delete their own property'
+);
+
+-- Check physical deletion as service_role: hidden rows are insufficient proof.
+reset role;
+select set_config('request.jwt.claim.sub', '', true);
+select set_config('request.jwt.claim.role', 'service_role', true);
+set local role service_role;
+
+select is(
+  (select count(*)::bigint from public.inquiries
+   where property_id = 'eeeeeeee-eeee-eeee-eeee-000000000002'),
+  0::bigint,
+  'Deleting a property cascades to its inquiries'
+);
+
+select is(
+  (select count(*)::bigint from public.property_sponsors
+   where property_id = 'eeeeeeee-eeee-eeee-eeee-000000000002'),
+  0::bigint,
+  'Deleting a property cascades to its sponsor links'
+);
+
 select * from finish();
 rollback;
