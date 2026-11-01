@@ -52,3 +52,22 @@ Verified locally using authenticated owner and administrator accounts.
 
 This verifies authorization for the property-approval operation.
 It does not establish full administrator CRUD coverage across all five tables.
+
+### Property Card Accessibility and Responsive Layout
+
+Verified locally in Microsoft Edge device emulation.
+
+| Check | Result | Evidence |
+|---|---|---|
+| 390px viewport | One column | Screenshot |
+| 800px viewport | Two columns | Screenshot |
+| 1280px viewport | Three columns | Screenshot |
+| Tab / Shift+Tab | Controls reachable in both directions | Manual keyboard test |
+| Visible keyboard focus | Focus indicator visible | Manual keyboard test |
+| Enter / Space | Property details expand and collapse | Manual keyboard test |
+
+Property cards use article, header, heading, and list elements.
+Details buttons expose aria-expanded and aria-controls.
+
+These checks cover the exam component requirements, not a complete
+WCAG conformance audit.
