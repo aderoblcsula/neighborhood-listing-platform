@@ -132,3 +132,36 @@ WCAG conformance audit.
 
 These results verify the exercised API operations and constraints;
 they are not an exhaustive security audit.
+
+### Combined regression verification
+
+- Full Vitest run: 48 tests passed across five test files.
+- Local database authorization suite: 36 tests passed.
+- Repository owner confirmed that pdt605 accepted the collaborator invitation.
+- Exam pull request: https://github.com/aderoblcsula/neighborhood-listing-platform/pull/9
+- Hosted application and database integration verification tested November 1, 2026.
+
+### Hosted deployment verification — November 1, 2026
+
+Deployment:
+https://neighborhood-listing-platform-git-exam-practica-e9cee0-csula-ad.vercel.app/
+
+Deployed application commit: 54038e3
+
+- Both repository migrations were applied to hosted Supabase.
+  Local and remote migration history matched.
+- Vercel Preview environment variables were configured for hosted Supabase,
+  and the exam-branch deployment was rebuilt.
+- The preview opened in an InPrivate browser without a Vercel login after
+  disabling Vercel Authentication for the project.
+- The public properties API returned Cedar and Oak; the Maple draft was
+  excluded.
+- The homepage displayed both approved properties and Cedar's active
+  bronze-tier sponsor. The inactive sponsor was excluded.
+- Cedar inquiry submission displayed success and cleared the form.
+- Oak displayed that the property was not accepting inquiries.
+- A hosted database query confirmed one inquiry for
+  hosted-test@example.test on Cedar and none on Oak.
+
+Authenticated owner and administrator API tests were verified locally;
+they have not yet been repeated against the hosted deployment.
