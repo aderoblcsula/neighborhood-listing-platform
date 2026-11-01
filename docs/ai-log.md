@@ -667,6 +667,7 @@ Branch: `exam/practical-persistence-eval`
 | Part 1 / ChatGPT | Begin the updated practical exam on my personal device. | Commands to update main, create the required branch, and verify ignored files. | None for this step. | Confirmed correct remote, clean exam branch, ignore rules, and only .env.example tracked. | 9dc5556e |
 | Part 2 / ChatGPT | Continue exam preparation after confirming the collaborator invitation and branch setup. | Used the proposed requirements document containing three user stories, Given/When/Then acceptance criteria, scope estimates, and planned implementation paths. | No suggestions rejected at this stage. Inquiry and administrator route paths remain proposed implementation choices, not completed features. | Reviewed the document against the updated exam instructions; confirmed docs/requirements.md was committed and pushed. Implementation behavior has not yet been tested against these criteria. | 6d80c41 |
 | Part 3 preparation / ChatGPT | Supplied the existing migration, RLS tests, seed data, and database verification document for review before preparing the exam migration. | Followed the recommendation to inspect existing tables, policies, constraints, and triggers before changing the database. | No output rejected at this stage. No new migration has been prepared or executed during this step. | Provided source files for inspection. Review of their compatibility with the updated exam requirements is pending. | Pending — review only |
+| Part 4–5 / ChatGPT | Extend the RLS tests, implement GET/POST property routes, and verify authenticated API behavior. | Used the expanded RLS suite, strict property-creation route, token-safe API test commands, and security-audit documentation. | No recommendations rejected in this step. Corrected the initially stated test count from 29 to the observed 28; eight additional assertions brought the suite to 36. | Local database suite passed 36 tests. Lint reported 0 errors and 2 warnings; production build passed. API tests confirmed GET 200, unauthenticated POST 401, owner creation 201 with correct ownership and draft status, invalid payloads 400, nonowner POST 403, and draft exclusion from public GET. | 04a9022 |
 | Part 5 / ChatGPT | Create and clarify the location of the exam property-creation contract and its tests. | Used an Ajv contract in src/schemas/property.ts and 17 focused Vitest tests covering valid input, required fields, numeric limits, unknown fields, and validation details. | No suggestions rejected in this step. Kept the existing root schemas folder because its contracts support earlier application features. | Ran npm test -- tests/property-create-validation.test.ts; all 17 tests passed. API integration remains pending. | Pending |
 
 > this src/schemas/property.ts is different then the other schema folder?
@@ -721,3 +722,45 @@ The exam migration applied successfully locally.
 The listings GET filter changed to status.
 The updated RLS suite passed 28 tests.
 Rejected-listing, junction visibility, cascade, and administrator-route tests remain outstanding.
+
+### Parts 4–5 — Prompt and Verification Record
+
+Exact text prompt:
+
+> Where do I put this specifically?
+
+The message also quoted the previously supplied profile-creation and
+verification SQL and requested clarification about where to execute it.
+
+Additional inputs were screenshots showing migration execution, RLS test
+results, build output, API responses, test-user profile roles, and Git
+commit/push results.
+
+### AI Output Used
+
+- Expanded database authorization tests, including rejected-listing edits,
+  sponsor-link visibility, and cascading deletion.
+- GET and POST handlers in src/app/api/properties/route.ts.
+- Authenticated API verification commands that kept passwords and tokens
+  out of the displayed results.
+- Verification documentation in docs/security-audit.md.
+
+### Corrections and Limitations
+
+- Corrected an incomplete UUID in the additional test block before execution.
+- Used actual terminal results rather than AI-predicted test counts.
+- The tests verified database service-role capabilities, but did not yet
+  verify server-side administrator authorization.
+- Hosted deployment and accessibility verification remained outstanding.
+
+### Independent Verification Performed
+
+I executed the database tests, lint, build, and HTTP checks locally and
+inspected their outputs. The API checks verified that a new property was
+saved as a draft belonging to the authenticated owner and remained hidden
+from public GET results.
+
+The verification scripts were AI-assisted; the reported outcomes came from
+execution against my local application and database.
+
+Associated implementation and evidence commit: 04a9022.
