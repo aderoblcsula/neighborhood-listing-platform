@@ -2,25 +2,22 @@ import "server-only";
 
 import { createClient } from "@supabase/supabase-js";
 
-function requireEnvironmentVariable(name: string): string {
-	const value = process.env[name];
+export function createAdminDatabaseClient() {
+	const url = process.env.SUPABASE_URL;
 
-	if (!value) {
-		throw new Error(`Missing required server environment variable: ${name}`);
+	// Prefer the exam-required name while preserving the existing setup.
+	const key =
+		process.env.SUPABASE_SERVICE_ROLE_KEY ||
+		process.env.SUPABASE_SECRET_KEY;
+
+	if (!url || !key) {
+		throw new Error("Missing administrator database configuration.");
 	}
 
-	return value;
-}
-
-export function createAdminDatabaseClient() {
-	return createClient(
-		requireEnvironmentVariable("SUPABASE_URL"),
-		requireEnvironmentVariable("SUPABASE_SECRET_KEY"),
-		{
-			auth: {
-				autoRefreshToken: false,
-				persistSession: false,
-			},
+	return createClient(url, key, {
+		auth: {
+			autoRefreshToken: false,
+			persistSession: false,
 		},
-	);
+	});
 }

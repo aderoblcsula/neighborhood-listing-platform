@@ -1,5 +1,7 @@
-import { createPublicDatabaseClient } from "@/lib/supabase/public";
-import { createAuthenticatedDatabaseClient } from "@/lib/supabase/authenticated";
+import {
+	createPublicDatabaseClient,
+	createAuthenticatedDatabaseClient,
+} from "@/lib/supabaseServer";
 import { validatePropertyCreate } from "@/schemas/property";
 
 export const dynamic = "force-dynamic";

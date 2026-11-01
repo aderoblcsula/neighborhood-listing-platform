@@ -30,7 +30,25 @@ privilege-escalation denial, sponsor-link visibility, and cascading deletion.
 
 ### Remaining Verification
 
-- Server-side administrator authorization.
+- Administrator management coverage beyond property approval.
 - Accessible UI and keyboard behavior.
 - Hosted deployment behavior.
 - Reproducibility from the complete migration sequence and updated seed.
+
+### Administrator Approval Route
+
+Endpoint: POST /api/admin/properties/[id]/approve
+
+Verified locally using authenticated owner and administrator accounts.
+
+| Test | Observed result | Verdict |
+|---|---|---|
+| Anonymous approval request | HTTP 401 | PASS |
+| Owner approval request | HTTP 403 | PASS |
+| State after denied requests | Property remained draft | PASS |
+| Administrator approval request | HTTP 200 | PASS |
+| Read property after approval | Approved status persisted | PASS |
+| Anonymous GET after approval | Approved property included | PASS |
+
+This verifies authorization for the property-approval operation.
+It does not establish full administrator CRUD coverage across all five tables.
