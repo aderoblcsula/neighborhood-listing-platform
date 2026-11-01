@@ -84,3 +84,20 @@ WCAG conformance audit.
 - npm run lint completed with zero errors and two existing warnings for unused
   ESLint-disable directives in generated type files.
 - npm run build passed.
+
+### Owner PATCH compatibility verification
+
+- Updated the PATCH validator to accept `address` after the exam migration
+  renamed `street_address`.
+- Added numeric upper bounds and trimmed-address length validation.
+- Included `address` in the PATCH response.
+- All 23 property-update validation tests passed.
+- Authenticated owner PATCH returned HTTP 200; an independent database
+  read confirmed the updated address and price.
+- Ownership and draft status remained unchanged.
+- Self-approval, the retired `street_address` field, and an out-of-range
+  numeric value each returned HTTP 400.
+- Anonymous PATCH returned HTTP 401.
+- Lint completed with zero errors and two existing generated-file warnings.
+- Production build passed.
+- This API run did not test cross-owner updates.
