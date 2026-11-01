@@ -101,3 +101,8 @@ WCAG conformance audit.
 - Lint completed with zero errors and two existing generated-file warnings.
 - Production build passed.
 - This API run did not test cross-owner updates.
+- Authenticated public-role PATCH returned HTTP 403.
+- Owner reads before and after the denied request confirmed that address,
+  price, status, ownership, and updated_at remained unchanged.
+- This check verifies public-role denial; it does not verify API denial
+  for a different property-owner account.
