@@ -94,5 +94,4 @@ describe("property update validation", () => {
 	])("rejects an out-of-range or noninteger update: %j", (payload) => {
 		expect(isValidPropertyUpdate(payload)).toBe(false);
 	});
-	
 });

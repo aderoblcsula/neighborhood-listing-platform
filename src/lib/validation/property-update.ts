@@ -64,7 +64,7 @@ const propertyUpdateSchema = {
 			type: "integer",
 			minimum: 1,
 			maximum: 2147483647,
-		},		
+		},
 		property_type: {
 			type: "string",
 			minLength: 1,
