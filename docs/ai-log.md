@@ -669,6 +669,7 @@ Branch: `exam/practical-persistence-eval`
 | Part 3 preparation / ChatGPT | Supplied the existing migration, RLS tests, seed data, and database verification document for review before preparing the exam migration. | Followed the recommendation to inspect existing tables, policies, constraints, and triggers before changing the database. | No output rejected at this stage. No new migration has been prepared or executed during this step. | Provided source files for inspection. Review of their compatibility with the updated exam requirements is pending. | Pending — review only |
 | Part 4–5 / ChatGPT | Extend the RLS tests, implement GET/POST property routes, and verify authenticated API behavior. | Used the expanded RLS suite, strict property-creation route, token-safe API test commands, and security-audit documentation. | No recommendations rejected in this step. Corrected the initially stated test count from 29 to the observed 28; eight additional assertions brought the suite to 36. | Local database suite passed 36 tests. Lint reported 0 errors and 2 warnings; production build passed. API tests confirmed GET 200, unauthenticated POST 401, owner creation 201 with correct ownership and draft status, invalid payloads 400, nonowner POST 403, and draft exclusion from public GET. | 04a9022 |
 | Part 5 / ChatGPT | Implement and verify protected administrator approval. | Used the server-only client entry point, protected-role authorization helper, approval route, and token-safe verification script. | No recommendations rejected in this step. Limited the verification claim to property approval rather than full administrator CRUD. | Build passed. Anonymous request returned 401; owner request returned 403 without changing the draft; administrator request returned 200, persisted approval, and made the property publicly visible. | 59d5648 |
+| Parts 5–6 / ChatGPT | Implement database-backed sponsor tiers and correct the reported React effect lint error. | Used the public sponsor endpoint, PropertySponsors component, and property-card integration. Removed the redundant synchronous loading-state update and keyed PropertySponsors by property ID. | Rejected the initial setState("loading") call directly inside useEffect because it triggered react-hooks/set-state-in-effect. The component already initializes in loading state; the key resets component state when the property changes. | Reran lint: 0 errors and 2 existing warnings. Production build passed. Approved-property sponsor request returned HTTP 200 with the bronze-tier sponsor; draft-property request returned HTTP 404. Browser inspection confirmed sponsor display. | Pending |
 | Part 6 / ChatGPT | Adapt property cards to the exam API and verify responsive and keyboard behavior. | Used the public-field card interface, semantic markup, expandable details buttons, focus styling, and responsive grid. | No recommendations rejected in this step. | Lint completed with 0 errors and 2 warnings; build passed. Screenshots confirmed 1/2/3 columns at 390/800/1280px. Manual keyboard checks passed for Tab, Shift+Tab, Enter, Space, and visible focus. | Pending |
 
 > this src/schemas/property.ts is different then the other schema folder?
@@ -765,3 +766,25 @@ The verification scripts were AI-assisted; the reported outcomes came from
 execution against my local application and database.
 
 Associated implementation and evidence commit: 04a9022.
+
+### Sponsor Display — AI Correction and Verification
+
+Input provided to ChatGPT: a terminal screenshot showing the
+react-hooks/set-state-in-effect error in PropertySponsors.tsx.
+
+The initial AI-generated component called setState("loading")
+synchronously inside useEffect. I applied the suggested correction:
+remove that redundant call and render the component with
+key={property.id}. State updates following the asynchronous request
+were retained.
+
+I verified the correction by running npm run lint and npm run build.
+Lint reported zero errors and two existing generated-file warnings;
+the production build passed.
+
+HTTP checks confirmed that the approved Cedar Avenue property returned
+its bronze-tier sponsor with HTTP 200, while the draft property returned
+HTTP 404. Browser inspection confirmed that the sponsor name and tier
+appeared on the correct property card.
+
+Associated Git commit: Pending.

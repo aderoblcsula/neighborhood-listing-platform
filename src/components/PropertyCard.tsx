@@ -1,5 +1,6 @@
 "use client";
 
+import PropertySponsors from "@/components/PropertySponsors";
 import { useId, useState } from "react";
 
 export interface PublicProperty {
@@ -44,6 +45,8 @@ export default function PropertyCard({ property }: PropertyCardProps) {
 				<li>{property.bathrooms} bathrooms</li>
 				<li>{property.square_feet.toLocaleString()} sq. ft.</li>
 			</ul>
+
+			<PropertySponsors key={property.id} propertyId={property.id} />
 
 			<button
 				type="button"
