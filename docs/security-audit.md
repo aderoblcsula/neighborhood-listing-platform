@@ -106,3 +106,29 @@ WCAG conformance audit.
   price, status, ownership, and updated_at remained unchanged.
 - This check verifies public-role denial; it does not verify API denial
   for a different property-owner account.
+
+### Administrator management verification
+
+- Tested /api/admin/[resource] for profiles, properties, sponsors,
+  property_sponsors, and inquiries.
+- Anonymous requests returned HTTP 401 for GET, POST, PATCH, and DELETE.
+- Authenticated owner requests returned HTTP 403 for all four methods,
+  including POST/PATCH bodies claiming role = admin.
+- Administrator GET requests returned HTTP 200 with no-store caching.
+- Unknown resources returned HTTP 404; invalid query parameters returned
+  HTTP 400.
+- Administrator creation returned HTTP 201 for all five tables.
+- Separate GET requests confirmed created values persisted.
+- Administrator updates returned HTTP 200 for all five tables.
+- Separate GET requests confirmed updated values persisted.
+- Deleting a profile that owned a property returned HTTP 409, and the
+  profile remained present.
+- Administrator deletion returned HTTP 200 for all five tables.
+- Follow-up reads confirmed the deleted records were absent.
+- Disposable application records were removed in dependency order.
+  The dedicated Auth test user was retained.
+- Lint reported zero errors and two existing generated-file warnings.
+- Production build passed.
+
+These results verify the exercised API operations and constraints;
+they are not an exhaustive security audit.
