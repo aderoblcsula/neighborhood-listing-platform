@@ -1,6 +1,7 @@
 "use client";
 
 import PropertySponsors from "@/components/PropertySponsors";
+import InquiryForm from "@/components/InquiryForm";
 import { useId, useState } from "react";
 
 export interface PublicProperty {
@@ -74,6 +75,11 @@ export default function PropertyCard({ property }: PropertyCardProps) {
 				<p className="mt-2">
 					Listed price: {priceFormatter.format(property.price)}.
 				</p>
+				<InquiryForm
+					key={property.id}
+					propertyId={property.id}
+					address={property.address}
+				/>
 			</div>
 		</article>
 	);

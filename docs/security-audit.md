@@ -71,3 +71,16 @@ Details buttons expose aria-expanded and aria-controls.
 
 These checks cover the exam component requirements, not a complete
 WCAG conformance audit.
+
+### Anonymous inquiry verification
+
+- Valid inquiry to an approved property accepting inquiries returned HTTP 201.
+- A message shorter than 10 characters returned HTTP 400.
+- An inquiry targeting a draft property returned HTTP 404.
+- An approved property with inquiries disabled returned HTTP 404.
+- GET /api/inquiries returned HTTP 405.
+- Browser verification confirmed success feedback and cleared fields after
+  successful submission; unavailable-property feedback retained entered values.
+- npm run lint completed with zero errors and two existing warnings for unused
+  ESLint-disable directives in generated type files.
+- npm run build passed.
