@@ -2,7 +2,7 @@ import Ajv2020 from "ajv/dist/2020";
 
 export interface PropertyUpdate {
 	title?: string;
-	street_address?: string;
+	address?: string;
 	city?: string;
 	state?: string;
 	zip_code?: string;
@@ -26,10 +26,11 @@ const propertyUpdateSchema = {
 			minLength: 1,
 			maxLength: 120,
 		},
-		street_address: {
+		address: {
 			type: "string",
-			minLength: 1,
+			minLength: 5,
 			maxLength: 200,
+			pattern: "\\S",
 		},
 		city: {
 			type: "string",
@@ -47,18 +48,22 @@ const propertyUpdateSchema = {
 		price: {
 			type: "number",
 			minimum: 0,
+			maximum: 9999999999.99,
 		},
 		bedrooms: {
 			type: "integer",
 			minimum: 0,
+			maximum: 2147483647,
 		},
 		bathrooms: {
 			type: "number",
 			minimum: 0,
+			maximum: 99.9,
 		},
 		square_feet: {
 			type: "integer",
 			minimum: 1,
+			maximum: 2147483647,
 		},
 		property_type: {
 			type: "string",
@@ -88,10 +93,14 @@ const ajv = new Ajv2020({
 	strict: true,
 });
 
-const validate = ajv.compile(propertyUpdateSchema);
+const validate = ajv.compile<PropertyUpdate>(propertyUpdateSchema);
 
 export function isValidPropertyUpdate(
 	value: unknown,
 ): value is PropertyUpdate {
-	return validate(value);
+	if (!validate(value)) {
+		return false;
+	}
+
+	return value.address === undefined || value.address.trim().length >= 5;
 }

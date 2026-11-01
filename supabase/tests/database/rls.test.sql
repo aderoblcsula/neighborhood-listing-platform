@@ -1,16 +1,22 @@
 begin;
 
 create extension if not exists pgtap with schema extensions;
+select no_plan();
 
-select plan(35);
+-- Additional fictional user for the ordinary-inquirer tests.
+insert into auth.users (id, email)
+values (
+  '55555555-5555-5555-5555-555555555555',
+  'exam-inquirer@example.test'
+);
 
--- Schema and RLS configuration
-select has_table('public', 'profiles', 'profiles table exists');
-select has_table('public', 'properties', 'properties table exists');
-select has_table('public', 'sponsors', 'sponsors table exists');
-select has_table('public', 'property_sponsors', 'property_sponsors table exists');
-select has_table('public', 'inquiries', 'inquiries table exists');
+insert into public.profiles (id, role)
+values (
+  '55555555-5555-5555-5555-555555555555',
+  'public'
+);
 
+-- Verify RLS configuration.
 select is(
   (
     select count(*)::bigint
@@ -18,15 +24,16 @@ select is(
     join pg_namespace n on n.oid = c.relnamespace
     where n.nspname = 'public'
       and c.relname in (
-        'profiles', 'properties', 'sponsors', 'property_sponsors', 'inquiries'
+        'profiles', 'properties', 'sponsors',
+        'property_sponsors', 'inquiries'
       )
       and c.relrowsecurity
   ),
   5::bigint,
-  'RLS is enabled on all five application tables'
+  'RLS is enabled on all five tables'
 );
 
--- Anonymous visitor
+-- Anonymous access.
 select set_config('request.jwt.claim.sub', '', true);
 select set_config('request.jwt.claim.role', 'anon', true);
 set local role anon;
@@ -35,105 +42,72 @@ select is(
   (select count(*)::bigint from public.properties
    where id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000001'),
   1::bigint,
-  'anon can read an approved property'
+  'Anonymous visitor can read an approved property'
 );
 
 select is(
   (select count(*)::bigint from public.properties
    where id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000002'),
   0::bigint,
-  'anon cannot read a draft property'
-);
-
-select is(
-  (select count(*)::bigint from public.sponsors
-   where id = 'bbbbbbbb-bbbb-bbbb-bbbb-000000000001'),
-  1::bigint,
-  'anon can read an approved active sponsor'
+  'Anonymous visitor cannot read a draft'
 );
 
 select is(
   (select count(*)::bigint from public.sponsors
    where id = 'bbbbbbbb-bbbb-bbbb-bbbb-000000000002'),
   0::bigint,
-  'anon cannot read a draft inactive sponsor'
+  'Anonymous visitor cannot read an inactive sponsor'
 );
 
-select is(
-  (select count(*)::bigint from public.property_sponsors
-   where property_id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000001'
-     and sponsor_id = 'bbbbbbbb-bbbb-bbbb-bbbb-000000000001'),
-  1::bigint,
-  'anon can read an approved active placement'
-);
-
-select throws_ok(
-  $$select count(*) from public.inquiries$$,
-  '42501', null,
-  'anon cannot read stored inquiries'
+select results_eq(
+  $$select tier from public.sponsors
+    where id = 'bbbbbbbb-bbbb-bbbb-bbbb-000000000001'$$,
+  $$values ('bronze'::text)$$,
+  'Active sponsor tier is publicly readable'
 );
 
 select lives_ok(
-  $$
-    insert into public.inquiries (property_id, sender_name, sender_email, message)
+  $$insert into public.inquiries
+      (property_id, inquirer_email, message)
     values (
       'aaaaaaaa-aaaa-aaaa-aaaa-000000000001',
-      'Anonymous Test Visitor', 'anon-test@example.test',
-      'This fictional inquiry should be accepted.'
-    )
-  $$,
-  'anon can submit an inquiry for an approved open property'
+      'anonymous-exam@example.test',
+      'Please provide details about this property.'
+    )$$,
+  'Anonymous visitor can submit an inquiry'
 );
 
 select throws_ok(
-  $$
-    insert into public.inquiries (property_id, sender_name, sender_email, message)
+  $$select id from public.inquiries$$,
+  '42501', null,
+  'Anonymous visitor cannot read inquiries'
+);
+
+select throws_ok(
+  $$insert into public.inquiries
+      (property_id, inquirer_email, message)
+    values (
+      'aaaaaaaa-aaaa-aaaa-aaaa-000000000001',
+      'anonymous-exam@example.test',
+      'Short'
+    )$$,
+  '23514', null,
+  'Database rejects an inquiry shorter than ten characters'
+);
+
+select throws_ok(
+  $$insert into public.inquiries
+      (property_id, inquirer_email, message)
     values (
       'aaaaaaaa-aaaa-aaaa-aaaa-000000000002',
-      'Anonymous Test Visitor', 'anon-test@example.test',
-      'This inquiry targets a draft property.'
-    )
-  $$,
+      'anonymous-exam@example.test',
+      'This inquiry targets a private draft.'
+    )$$,
   '42501', null,
-  'anon cannot submit an inquiry for a draft property'
+  'Anonymous visitor cannot inquire about a draft'
 );
 
-select throws_ok(
-  $$
-    insert into public.inquiries (property_id, sender_name, sender_email, message)
-    values (
-      'aaaaaaaa-aaaa-aaaa-aaaa-000000000004',
-      'Anonymous Test Visitor', 'anon-test@example.test',
-      'This property is closed to inquiries.'
-    )
-  $$,
-  '42501', null,
-  'anon cannot submit when accepts_inquiries is false'
-);
-
-select throws_ok(
-  $$
-    insert into public.properties (
-      owner_id, title, street_address, city, state, zip_code, price,
-      bedrooms, bathrooms, square_feet, property_type, description,
-      review_status, availability_status, image_src, image_alt, details_href,
-      amenities, accepts_inquiries
-    ) values (
-      '11111111-1111-1111-1111-111111111111',
-      'Unauthorized Property', '1 Fictional Street', 'Los Angeles', 'CA',
-      '90001', 1, 1, 1.0, 500, 'apartment',
-      'This anonymous managed-content write must be denied.',
-      'draft', 'available', '/unauthorized.svg',
-      'Unauthorized fictional property',
-      'https://example.test/properties/unauthorized',
-      array['laundry']::text[], true
-    )
-  $$,
-  '42501', null,
-  'anon cannot create managed property content'
-);
-
--- Property owner one
+-- Owner A.
 reset role;
 select set_config(
   'request.jwt.claim.sub',
@@ -142,156 +116,236 @@ select set_config(
 select set_config('request.jwt.claim.role', 'authenticated', true);
 set local role authenticated;
 
-select is(
-  (select count(*)::bigint from public.properties
-   where id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000002'),
-  1::bigint,
-  'owner can read their own draft property'
-);
-
-select is(
-  (select count(*)::bigint from public.properties
-   where id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000003'),
-  0::bigint,
-  'owner cannot read another owner unapproved property'
-);
-
 select lives_ok(
-  $$
-    update public.properties
-    set title = 'Owner Updated Fictional Cottage'
+  $$insert into public.properties
+      (owner_id, address, price, bedrooms, bathrooms, square_feet)
+    values (
+      '11111111-1111-1111-1111-111111111111',
+      '500 Exam Test Street', 450000, 3, 2, 1400
+    )$$,
+  'Owner can create a property using only the exam fields'
+);
+
+select results_eq(
+  $$select status from public.properties
+    where address = '500 Exam Test Street'$$,
+  $$values ('draft'::text)$$,
+  'New property defaults to draft'
+);
+
+select results_eq(
+  $$update public.properties
+    set price = 486000
     where id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000002'
-  $$,
-  'owner can update their own draft property'
+    returning price$$,
+  $$values (486000::numeric)$$,
+  'Owner draft update changes the intended record'
+);
+
+select is_empty(
+  $$update public.properties
+    set price = 1
+    where id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000003'
+    returning id$$,
+  'Owner cannot update another owner property'
+);
+
+select is_empty(
+  $$update public.properties
+    set price = 1
+    where id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000001'
+    returning id$$,
+  'Owner cannot update an approved property'
 );
 
 select throws_ok(
-  $$
-    update public.properties
-    set review_status = 'approved'
-    where id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000002'
-  $$,
+  $$update public.properties
+    set status = 'approved'
+    where id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000002'$$,
   '42501', null,
-  'owner cannot approve their own property'
+  'Owner cannot self-approve'
 );
 
 select throws_ok(
-  $$
-    update public.properties
+  $$update public.properties
     set owner_id = '22222222-2222-2222-2222-222222222222'
-    where id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000002'
-  $$,
+    where id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000002'$$,
   '42501', null,
-  'owner cannot transfer property ownership'
+  'Owner cannot transfer ownership'
+);
+
+select throws_ok(
+  $$update public.profiles
+    set role = 'admin'
+    where id = '11111111-1111-1111-1111-111111111111'$$,
+  '42501', null,
+  'Owner cannot escalate their profile role'
 );
 
 select is(
   (select count(*)::bigint from public.inquiries
    where id = 'cccccccc-cccc-cccc-cccc-000000000001'),
   1::bigint,
-  'property owner can read inquiries for their property'
+  'Owner can read inquiries for their property'
 );
 
-select throws_ok(
-  $$
-    update public.profiles
-    set role = 'administrator'
-    where id = '11111111-1111-1111-1111-111111111111'
-  $$,
-  '42501', null,
-  'authenticated owner cannot escalate their profile role'
+select results_eq(
+  $$delete from public.properties
+    where address = '500 Exam Test Street'
+    returning address$$,
+  $$values ('500 Exam Test Street'::text)$$,
+  'Owner can delete their own test draft'
 );
 
--- Unrelated property owner two
+select is_empty(
+  $$delete from public.properties
+    where id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000003'
+    returning id$$,
+  'Owner cannot delete another owner property'
+);
+
+-- Owner B owns the pending property.
 reset role;
 select set_config(
   'request.jwt.claim.sub',
   '22222222-2222-2222-2222-222222222222', true
 );
-select set_config('request.jwt.claim.role', 'authenticated', true);
 set local role authenticated;
+
+select is_empty(
+  $$update public.properties
+    set price = 1
+    where id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000003'
+    returning id$$,
+  'Owner cannot update their own pending property'
+);
 
 select is(
   (select count(*)::bigint from public.inquiries
    where id = 'cccccccc-cccc-cccc-cccc-000000000001'),
   0::bigint,
-  'unrelated owner cannot read another property inquiry'
+  'Other owner cannot read Owner A inquiries'
 );
 
-select is(
-  (select count(*)::bigint from public.properties
-   where id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000002'),
-  0::bigint,
-  'unrelated owner cannot read another owner draft'
-);
-
-select is_empty(
-  $$
-    update public.properties
-    set title = 'Unauthorized Hijacked Title'
-    where id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000002'
-    returning id
-  $$,
-  'unrelated owner update affects zero rows'
-);
-
--- Sponsor owner
+-- Ordinary authenticated inquirer.
 reset role;
 select set_config(
   'request.jwt.claim.sub',
-  '33333333-3333-3333-3333-333333333333', true
+  '55555555-5555-5555-5555-555555555555', true
 );
-select set_config('request.jwt.claim.role', 'authenticated', true);
 set local role authenticated;
 
-select is(
-  (select count(*)::bigint from public.sponsors
-   where id = 'bbbbbbbb-bbbb-bbbb-bbbb-000000000002'),
-  1::bigint,
-  'sponsor owner can read their own draft sponsor record'
+select lives_ok(
+  $$insert into public.inquiries
+      (property_id, inquirer_email, message)
+    values (
+      'aaaaaaaa-aaaa-aaaa-aaaa-000000000001',
+      'exam-inquirer@example.test',
+      'Please contact me about this approved listing.'
+    )$$,
+  'Authenticated public user can submit an inquiry'
 );
 
-select lives_ok(
-  $$
-    update public.sponsors
-    set name = 'Updated Fictional Home Services'
-    where id = 'bbbbbbbb-bbbb-bbbb-bbbb-000000000002'
-  $$,
-  'sponsor owner can update their own draft record'
+select is_empty(
+  $$select id from public.inquiries$$,
+  'Ordinary inquirer cannot read stored inquiries'
 );
 
 select throws_ok(
-  $$
-    update public.sponsors
-    set review_status = 'approved'
-    where id = 'bbbbbbbb-bbbb-bbbb-bbbb-000000000002'
-  $$,
+  $$insert into public.properties
+      (owner_id, address, price, bedrooms, bathrooms, square_feet)
+    values (
+      '55555555-5555-5555-5555-555555555555',
+      '600 Unauthorized Street', 100000, 1, 1, 600
+    )$$,
   '42501', null,
-  'sponsor owner cannot self-approve'
+  'Public-role user cannot create a property'
 );
 
-select lives_ok(
-  $$
-    insert into public.property_sponsors (
-      property_id, sponsor_id, display_priority, review_status, active
-    ) values (
-      'aaaaaaaa-aaaa-aaaa-aaaa-000000000001',
-      'bbbbbbbb-bbbb-bbbb-bbbb-000000000002',
-      2, 'pending_review', true
-    )
-  $$,
-  'sponsor can request an unapproved placement on an approved property'
+-- Privileged database execution.
+-- This verifies database privileges, not server-side admin authorization.
+reset role;
+select set_config('request.jwt.claim.sub', '', true);
+select set_config('request.jwt.claim.role', 'service_role', true);
+set local role service_role;
+
+select results_eq(
+  $$update public.properties
+    set status = 'approved'
+    where id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000002'
+    returning status$$,
+  $$values ('approved'::text)$$,
+  'Service role can approve a draft'
 );
 
 select is(
-  (select count(*)::bigint from public.property_sponsors
-   where property_id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000001'
-     and sponsor_id = 'bbbbbbbb-bbbb-bbbb-bbbb-000000000002'),
+  (select count(*)::bigint from public.inquiries
+   where id = 'cccccccc-cccc-cccc-cccc-000000000001'),
   1::bigint,
-  'sponsor can read their own unapproved placement request'
+  'Service role can read private inquiries'
 );
 
--- Anon still cannot see the newly created unapproved placement
+select results_eq(
+  $$update public.sponsors
+    set tier = 'gold'
+    where id = 'bbbbbbbb-bbbb-bbbb-bbbb-000000000001'
+    returning tier$$,
+  $$values ('gold'::text)$$,
+  'Service role can manage sponsor tiers'
+);
+
+-- Additional exam cases. All changes roll back with this test file.
+reset role;
+select set_config('request.jwt.claim.sub', '', true);
+select set_config('request.jwt.claim.role', 'service_role', true);
+set local role service_role;
+
+-- Create isolated fixtures owned by Owner A.
+insert into public.properties (
+  id, owner_id, address, price, bedrooms, bathrooms,
+  square_feet, status, rejection_reason
+)
+values
+  (
+    'eeeeeeee-eeee-eeee-eeee-000000000001',
+    '11111111-1111-1111-1111-111111111111',
+    '701 Rejected Test Street', 200000, 2, 1, 900,
+    'rejected', 'Please correct the listing information.'
+  ),
+  (
+    'eeeeeeee-eeee-eeee-eeee-000000000002',
+    '11111111-1111-1111-1111-111111111111',
+    '702 Cascade Test Street', 300000, 3, 2, 1200,
+    'approved', null
+  );
+
+-- Public link, inactive-sponsor link, and private-property link.
+insert into public.property_sponsors (property_id, sponsor_id)
+values
+  (
+    'eeeeeeee-eeee-eeee-eeee-000000000002',
+    'bbbbbbbb-bbbb-bbbb-bbbb-000000000001'
+  ),
+  (
+    'eeeeeeee-eeee-eeee-eeee-000000000002',
+    'bbbbbbbb-bbbb-bbbb-bbbb-000000000002'
+  ),
+  (
+    'eeeeeeee-eeee-eeee-eeee-000000000001',
+    'bbbbbbbb-bbbb-bbbb-bbbb-000000000001'
+  );
+
+insert into public.inquiries (
+  id, property_id, inquirer_email, message
+)
+values (
+  'eeeeeeee-eeee-eeee-eeee-000000000003',
+  'eeeeeeee-eeee-eeee-eeee-000000000002',
+  'cascade-test@example.test',
+  'This fictional inquiry verifies cascading deletion.'
+);
+
+-- Anonymous sponsor-link visibility.
 reset role;
 select set_config('request.jwt.claim.sub', '', true);
 select set_config('request.jwt.claim.role', 'anon', true);
@@ -299,39 +353,79 @@ set local role anon;
 
 select is(
   (select count(*)::bigint from public.property_sponsors
-   where property_id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000001'
-     and sponsor_id = 'bbbbbbbb-bbbb-bbbb-bbbb-000000000002'),
-  0::bigint,
-  'anon cannot see an unapproved placement request'
+   where property_id = 'eeeeeeee-eeee-eeee-eeee-000000000002'
+     and sponsor_id = 'bbbbbbbb-bbbb-bbbb-bbbb-000000000001'),
+  1::bigint,
+  'Public can read an approved-property link to an active sponsor'
 );
 
--- Service role bypass is reserved for trusted server code
+select is(
+  (select count(*)::bigint from public.property_sponsors
+   where property_id = 'eeeeeeee-eeee-eeee-eeee-000000000002'
+     and sponsor_id = 'bbbbbbbb-bbbb-bbbb-bbbb-000000000002'),
+  0::bigint,
+  'Public cannot read a link to an inactive sponsor'
+);
+
+select is(
+  (select count(*)::bigint from public.property_sponsors
+   where property_id = 'eeeeeeee-eeee-eeee-eeee-000000000001'),
+  0::bigint,
+  'Public cannot read links for a rejected property'
+);
+
+-- Owner edits a rejected listing and deletes an owned property.
+reset role;
+select set_config(
+  'request.jwt.claim.sub',
+  '11111111-1111-1111-1111-111111111111', true
+);
+select set_config('request.jwt.claim.role', 'authenticated', true);
+set local role authenticated;
+
+select results_eq(
+  $$update public.properties
+    set price = 210000
+    where id = 'eeeeeeee-eeee-eeee-eeee-000000000001'
+    returning price$$,
+  $$values (210000::numeric)$$,
+  'Owner can update their own rejected property'
+);
+
+select results_eq(
+  $$select status from public.properties
+    where id = 'eeeeeeee-eeee-eeee-eeee-000000000001'$$,
+  $$values ('rejected'::text)$$,
+  'Editing rejected content does not approve it'
+);
+
+select results_eq(
+  $$delete from public.properties
+    where id = 'eeeeeeee-eeee-eeee-eeee-000000000002'
+    returning id$$,
+  $$values ('eeeeeeee-eeee-eeee-eeee-000000000002'::uuid)$$,
+  'Owner can delete their own property'
+);
+
+-- Check physical deletion as service_role: hidden rows are insufficient proof.
 reset role;
 select set_config('request.jwt.claim.sub', '', true);
 select set_config('request.jwt.claim.role', 'service_role', true);
 set local role service_role;
 
 select is(
-  (select count(*)::bigint from public.properties),
-  4::bigint,
-  'service role can read all seeded properties'
+  (select count(*)::bigint from public.inquiries
+   where property_id = 'eeeeeeee-eeee-eeee-eeee-000000000002'),
+  0::bigint,
+  'Deleting a property cascades to its inquiries'
 );
 
 select is(
-  (select count(*)::bigint from public.inquiries),
-  2::bigint,
-  'service role can read the seeded and test inquiries'
-);
-
-select lives_ok(
-  $$
-    update public.properties
-    set title = 'Trusted Server Administrative Update'
-    where id = 'aaaaaaaa-aaaa-aaaa-aaaa-000000000001'
-  $$,
-  'service role can perform a trusted administrative update'
+  (select count(*)::bigint from public.property_sponsors
+   where property_id = 'eeeeeeee-eeee-eeee-eeee-000000000002'),
+  0::bigint,
+  'Deleting a property cascades to its sponsor links'
 );
 
 select * from finish();
-
 rollback;

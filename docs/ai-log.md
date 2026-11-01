@@ -657,3 +657,137 @@ administrator metadata value, database-level rate limiting, and the mislabeled
 administrator test were rejected.
 
 No Gemini-generated SQL was executed without manual review.
+
+## Practical Persistence Exam — October 29, 2026
+
+Branch: `exam/practical-persistence-eval`
+
+| Step / Tool | Prompt Summary | Model Output Used | Model Output Rejected & Rationale | Verification Method | Associated Git Commit |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Part 1 / ChatGPT | Begin the updated practical exam on my personal device. | Commands to update main, create the required branch, and verify ignored files. | None for this step. | Confirmed correct remote, clean exam branch, ignore rules, and only .env.example tracked. | 9dc556e |
+| Part 2 / ChatGPT | Continue exam preparation after confirming the collaborator invitation and branch setup. | Used the proposed requirements document containing three user stories, Given/When/Then acceptance criteria, scope estimates, and planned implementation paths. | No suggestions rejected at this stage. Inquiry and administrator route paths remain proposed implementation choices, not completed features. | Reviewed the document against the updated exam instructions; confirmed docs/requirements.md was committed and pushed. Implementation behavior has not yet been tested against these criteria. | 6d80c41 |
+| Part 3 preparation / ChatGPT | Supplied the existing migration, RLS tests, seed data, and database verification document for review before preparing the exam migration. | Followed the recommendation to inspect existing tables, policies, constraints, and triggers before changing the database. | No output rejected at this stage. No new migration has been prepared or executed during this step. | Provided source files for inspection. Review of their compatibility with the updated exam requirements is pending. | Pending — review only |
+| Part 4–5 / ChatGPT | Extend the RLS tests, implement GET/POST property routes, and verify authenticated API behavior. | Used the expanded RLS suite, strict property-creation route, token-safe API test commands, and security-audit documentation. | No recommendations rejected in this step. Corrected the initially stated test count from 29 to the observed 28; eight additional assertions brought the suite to 36. | Local database suite passed 36 tests. Lint reported 0 errors and 2 warnings; production build passed. API tests confirmed GET 200, unauthenticated POST 401, owner creation 201 with correct ownership and draft status, invalid payloads 400, nonowner POST 403, and draft exclusion from public GET. | 04a9022 |
+| Part 5 / ChatGPT | Implement and verify protected administrator approval. | Used the server-only client entry point, protected-role authorization helper, approval route, and token-safe verification script. | No recommendations rejected in this step. Limited the verification claim to property approval rather than full administrator CRUD. | Build passed. Anonymous request returned 401; owner request returned 403 without changing the draft; administrator request returned 200, persisted approval, and made the property publicly visible. | 59d5648 |
+| Parts 5–6 / ChatGPT | Implement database-backed sponsor tiers and correct the reported React effect lint error. | Used the public sponsor endpoint, PropertySponsors component, and property-card integration. Removed the redundant synchronous loading-state update and keyed PropertySponsors by property ID. | Rejected the initial setState("loading") call directly inside useEffect because it triggered react-hooks/set-state-in-effect. The component already initializes in loading state; the key resets component state when the property changes. | Reran lint: 0 errors and 2 existing warnings. Production build passed. Approved-property sponsor request returned HTTP 200 with the bronze-tier sponsor; draft-property request returned HTTP 404. Browser inspection confirmed sponsor display. | f61b3fd |
+| Part 6 / ChatGPT | Adapt property cards to the exam API and verify responsive and keyboard behavior. | Used the public-field card interface, semantic markup, expandable details buttons, focus styling, and responsive grid. | No recommendations rejected in this step. | Lint completed with 0 errors and 2 warnings; build passed. Screenshots confirmed 1/2/3 columns at 390/800/1280px. Manual keyboard checks passed for Tab, Shift+Tab, Enter, Space, and visible focus. | ecd9907 |
+| Anonymous inquiry API and form / ChatGPT | Implement and verify anonymous property inquiries; supplied terminal and browser screenshots of submission results. | Used validated POST /api/inquiries and an InquiryForm integrated into property details, with submission feedback and duplicate-submission prevention. | No additional rejected output recorded for this step. | API checks returned 201 for valid input, 400 for a short message, 404 for draft or inquiry-disabled properties, and 405 for GET. Browser showed success with cleared fields and unavailable-property feedback with retained input. Lint: zero errors, two existing generated-file warnings. Build passed. | f5bc4a5 |
+| Owner PATCH compatibility / ChatGPT | Reviewed the update validator and supplied screenshots of validation, build, and authenticated PATCH results. | Renamed the update field to address, added numeric limits and trimmed-address validation, included address in the response, and expanded validation tests. | Corrected the suggested filename from validate-data.ts to validated-data.ts. Preserved the earlier local JSON contract because it uses separate schemas. | All 23 validation tests passed. Owner PATCH returned 200 and persisted changes without changing ownership or draft status. Protected or invalid fields returned 400; anonymous PATCH returned 401. Follow-up API test confirmed authenticated public-role PATCH returned 403; owner reads before and after confirmed the property remained unchanged. Lint: zero errors, two existing warnings. Build passed. | 1f11a9c |
+| Administrator management / ChatGPT | Supplied requirements, authorization code, both migrations, and screenshots of administrator API verification. | Used the allowlisted administrator route, strict input validation, complete record-key checks, safe error responses, and token-safe verification scripts. | No additional rejected output recorded. Preserved database integrity constraints and kept Auth account creation separate from application-profile creation. | Anonymous requests returned 401 and owner requests returned 403 across all four methods and five resources. Administrator CRUD succeeded across all five tables; separate reads verified persisted changes and deletion. Profile deletion with an owned property returned 409. Disposable application records were removed. Lint: zero errors, two existing warnings. Build passed. | 54038e3 |
+| Hosted deployment / ChatGPT | Supplied screenshots while configuring hosted Supabase, Vercel Preview variables, deployment access, and inquiry verification. | Used CLI migration deployment, fictional demonstration SQL, hosted environment configuration, and browser/database verification steps. | Corrected the initial use of local Studio for hosted account setup and the selection of a main-branch production deployment. Selected the exam preview instead. | Hosted migration history matched. Public API and UI displayed approved properties and the active sponsor. InPrivate access succeeded. Cedar inquiry persisted; Oak submission was denied with no matching stored inquiry. | Application: 54038e3; deployment configuration performed in dashboards. |
+
+> this src/schemas/property.ts is different then the other schema folder?
+
+Follow-up input: terminal screenshot showing all 17 property-creation
+validation tests passing.
+
+### Part 1 — Exact Prompt
+
+> I am on my own device and ready to begin
+
+Follow-up input: terminal screenshot showing branch creation, installed
+tool versions, ignore-rule checks, and tracked environment filenames.
+
+### Part 2 — Prompt and Input Record
+
+Exact text prompt:
+
+> Invite is pending.
+
+Attached input: terminal screenshot confirming the exam branch was
+pushed and the initial AI-log commit was 9dc556e.
+
+ChatGPT supplied the proposed contents of docs/requirements.md.
+The resulting requirements document was committed as 6d80c41.
+
+Follow-up input: screenshot showing the requirements commit and push;
+no accompanying text prompt.
+
+### Part 3 Preparation — Input Record
+
+Files supplied:
+
+- 20261023050853_create_core_schema(1).sql
+- rls.test(1).sql
+- seed(1).sql
+- database-verification.md
+
+Exact text prompt:
+
+> What should be added to my ai-log?
+
+These uploaded filenames identify the review copies, not new migration
+filenames. Source review and exam migration implementation are pending.
+
+### Repository Access
+
+The collaborator invitation to pdt605 has been sent and is acceptanced.
+
+The exam migration applied successfully locally.
+The listings GET filter changed to status.
+The updated RLS suite passed 28 tests.
+Rejected-listing, junction visibility, cascade, and administrator-route tests remain outstanding.
+
+### Parts 4–5 — Prompt and Verification Record
+
+Exact text prompt:
+
+> Where do I put this specifically?
+
+The message also quoted the previously supplied profile-creation and
+verification SQL and requested clarification about where to execute it.
+
+Additional inputs were screenshots showing migration execution, RLS test
+results, build output, API responses, test-user profile roles, and Git
+commit/push results.
+
+### AI Output Used
+
+- Expanded database authorization tests, including rejected-listing edits,
+  sponsor-link visibility, and cascading deletion.
+- GET and POST handlers in src/app/api/properties/route.ts.
+- Authenticated API verification commands that kept passwords and tokens
+  out of the displayed results.
+- Verification documentation in docs/security-audit.md.
+
+### Corrections and Limitations
+
+- Corrected an incomplete UUID in the additional test block before execution.
+- Used actual terminal results rather than AI-predicted test counts.
+- The tests verified database service-role capabilities, but did not yet
+  verify server-side administrator authorization.
+- Hosted deployment and accessibility verification remained outstanding.
+
+### Independent Verification Performed
+
+I executed the database tests, lint, build, and HTTP checks locally and
+inspected their outputs. The API checks verified that a new property was
+saved as a draft belonging to the authenticated owner and remained hidden
+from public GET results.
+
+The verification scripts were AI-assisted; the reported outcomes came from
+execution against my local application and database.
+
+Associated implementation and evidence commit: 04a9022.
+
+### Sponsor Display — AI Correction and Verification
+
+Input provided to ChatGPT: a terminal screenshot showing the
+react-hooks/set-state-in-effect error in PropertySponsors.tsx.
+
+The initial AI-generated component called setState("loading")
+synchronously inside useEffect. I applied the suggested correction:
+remove that redundant call and render the component with
+key={property.id}. State updates following the asynchronous request
+were retained.
+
+I verified the correction by running npm run lint and npm run build.
+Lint reported zero errors and two existing generated-file warnings;
+the production build passed.
+
+HTTP checks confirmed that the approved Cedar Avenue property returned
+its bronze-tier sponsor with HTTP 200, while the draft property returned
+HTTP 404. Browser inspection confirmed that the sponsor name and tier
+appeared on the correct property card.
+
+Associated Git commit: ecd9907.

@@ -1,59 +1,86 @@
-import Image from "next/image";
+"use client";
 
-import type { Property } from "@/types";
+import PropertySponsors from "@/components/PropertySponsors";
+import InquiryForm from "@/components/InquiryForm";
+import { useId, useState } from "react";
+
+export interface PublicProperty {
+	id: string;
+	address: string;
+	price: number;
+	bedrooms: number;
+	bathrooms: number;
+	square_feet: number;
+}
 
 interface PropertyCardProps {
-  property: Property;
+	property: PublicProperty;
 }
 
 const priceFormatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  maximumFractionDigits: 0,
+	style: "currency",
+	currency: "USD",
+	maximumFractionDigits: 2,
 });
 
 export default function PropertyCard({ property }: PropertyCardProps) {
-  return (
-    <article
-      id={property.id}
-      className="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
-    >
-      <div className="relative aspect-[4/3] overflow-hidden bg-slate-200">
-        <Image
-          src={property.imageSrc}
-          alt={property.imageAlt}
-          fill
-          className="object-cover"
-          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-        />
-      </div>
+	const [detailsOpen, setDetailsOpen] = useState(false);
+	const detailsId = useId();
 
-      <div className="flex flex-1 flex-col p-6">
-        <h3 className="text-xl font-bold text-slate-950">{property.title}</h3>
-        <p className="mt-2 text-sm leading-6 text-slate-600">
-          {property.address}
-        </p>
-        <p className="mt-4 text-2xl font-bold text-blue-800">
-          {priceFormatter.format(property.price)}
-        </p>
+	return (
+		<article className="flex h-full flex-col rounded-2xl border border-slate-300 bg-white p-6 shadow-sm">
+			<header>
+				<h3 className="text-xl font-bold text-slate-950">
+					{property.address}
+				</h3>
+				<p className="mt-3 text-2xl font-bold text-blue-800">
+					{priceFormatter.format(property.price)}
+				</p>
+			</header>
 
-        <ul
-          className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm text-slate-700"
-          aria-label={`${property.title} facts`}
-        >
-          <li>{property.bedrooms} bedrooms</li>
-          <li>{property.bathrooms} bathrooms</li>
-          <li>{property.squareFeet.toLocaleString()} sq. ft.</li>
-        </ul>
+			<ul
+				className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm text-slate-700"
+				aria-label={`Specifications for ${property.address}`}
+			>
+				<li>{property.bedrooms} bedrooms</li>
+				<li>{property.bathrooms} bathrooms</li>
+				<li>{property.square_feet.toLocaleString()} sq. ft.</li>
+			</ul>
 
-        <a
-          href={property.detailsHref}
-          className="mt-6 inline-flex min-h-11 items-center justify-center rounded-lg bg-blue-700 px-4 py-2.5 font-semibold text-white transition hover:bg-blue-800 focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-amber-500"
-          aria-label={`View details for ${property.title}`}
-        >
-          View property details
-        </a>
-      </div>
-    </article>
-  );
+			<PropertySponsors key={property.id} propertyId={property.id} />
+
+			<button
+				type="button"
+				aria-label={`${
+					detailsOpen ? "Hide" : "View"
+				} details for ${property.address}`}
+				aria-expanded={detailsOpen}
+				aria-controls={detailsId}
+				onClick={() => setDetailsOpen((current) => !current)}
+				className="mt-6 inline-flex min-h-11 items-center justify-center rounded-lg bg-blue-700 px-4 py-3 font-semibold text-white hover:bg-blue-800 focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
+			>
+				{detailsOpen ? "Hide details" : "View details"}
+			</button>
+
+			<div
+				id={detailsId}
+				hidden={!detailsOpen}
+				className="mt-4 border-t border-slate-200 pt-4 text-sm leading-6 text-slate-700"
+			>
+				<p>
+					This approved property at {property.address} offers{" "}
+					{property.bedrooms} bedrooms, {property.bathrooms} bathrooms,
+					and {property.square_feet.toLocaleString()} square feet.
+				</p>
+				<p className="mt-2">
+					Listed price: {priceFormatter.format(property.price)}.
+				</p>
+				<InquiryForm
+					key={property.id}
+					propertyId={property.id}
+					address={property.address}
+				/>
+			</div>
+		</article>
+	);
 }

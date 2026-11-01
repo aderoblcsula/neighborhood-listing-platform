@@ -82,6 +82,7 @@ export async function PATCH(
 			.eq("id", id)
 			.select(`
 				id,
+				address,
 				title,
 				city,
 				state,

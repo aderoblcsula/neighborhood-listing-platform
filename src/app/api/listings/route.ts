@@ -27,7 +27,7 @@ export async function GET() {
 		const { data, error } = await database
 			.from("properties")
 			.select(LISTING_COLUMNS)
-			.eq("review_status", "approved")
+			.eq("status", "approved")
 			.order("created_at", { ascending: false });
 
 		if (error) {
