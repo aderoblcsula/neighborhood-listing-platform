@@ -667,6 +667,12 @@ Branch: `exam/practical-persistence-eval`
 | Part 1 / ChatGPT | Begin the updated practical exam on my personal device. | Commands to update main, create the required branch, and verify ignored files. | None for this step. | Confirmed correct remote, clean exam branch, ignore rules, and only .env.example tracked. | 9dc5556e |
 | Part 2 / ChatGPT | Continue exam preparation after confirming the collaborator invitation and branch setup. | Used the proposed requirements document containing three user stories, Given/When/Then acceptance criteria, scope estimates, and planned implementation paths. | No suggestions rejected at this stage. Inquiry and administrator route paths remain proposed implementation choices, not completed features. | Reviewed the document against the updated exam instructions; confirmed docs/requirements.md was committed and pushed. Implementation behavior has not yet been tested against these criteria. | 6d80c41 |
 | Part 3 preparation / ChatGPT | Supplied the existing migration, RLS tests, seed data, and database verification document for review before preparing the exam migration. | Followed the recommendation to inspect existing tables, policies, constraints, and triggers before changing the database. | No output rejected at this stage. No new migration has been prepared or executed during this step. | Provided source files for inspection. Review of their compatibility with the updated exam requirements is pending. | Pending — review only |
+| Part 5 / ChatGPT | Create and clarify the location of the exam property-creation contract and its tests. | Used an Ajv contract in src/schemas/property.ts and 17 focused Vitest tests covering valid input, required fields, numeric limits, unknown fields, and validation details. | No suggestions rejected in this step. Kept the existing root schemas folder because its contracts support earlier application features. | Ran npm test -- tests/property-create-validation.test.ts; all 17 tests passed. API integration remains pending. | Pending |
+
+> this src/schemas/property.ts is different then the other schema folder?
+
+Follow-up input: terminal screenshot showing all 17 property-creation
+validation tests passing.
 
 ### Part 1 — Exact Prompt
 
@@ -710,3 +716,8 @@ filenames. Source review and exam migration implementation are pending.
 
 The collaborator invitation to pdt605 has been sent and is pending
 acceptance.
+
+The exam migration applied successfully locally.
+The listings GET filter changed to status.
+The updated RLS suite passed 28 tests.
+Rejected-listing, junction visibility, cascade, and administrator-route tests remain outstanding.
